@@ -1,0 +1,8 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<languages>
+  <language name="English" id="en">
+    <Test>
+      <Translation>Hi, {0}, this is a test translation</Translation>
+    </Test>
+  </language>
+</languages>

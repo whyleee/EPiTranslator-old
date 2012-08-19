@@ -16,7 +16,7 @@ namespace EPiTranslator
     /// </summary>
     public class Translator
     {
-        public const string TranslationsFileName = "Default_{0}.xml";
+        public const string TranslationsFileName = "Auto_{0}.xml";
 
         private static IEnumerable<string> _siteLanguages;
 

@@ -1,0 +1,16 @@
+﻿<%@ Master Language="C#" AutoEventWireup="false" CodeBehind="Site.master.cs" Inherits="EPiTranslator.TestSite.Templates.MasterPages.Site" %>
+
+<!DOCTYPE html>
+<html>
+<head runat="server">
+    <title>EPiTranslator Test Site</title>
+    <asp:ContentPlaceHolder ID="head" runat="server"/>
+</head>
+<body runat="server">
+    <form id="form1" runat="server">
+    <div>
+        <asp:ContentPlaceHolder ID="main" runat="server"/>
+    </div>
+    </form>
+</body>
+</html>
