@@ -1,0 +1,175 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>
+    </ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{84254292-B572-4BEF-86C4-6C9E44115FD7}</ProjectGuid>
+    <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>EPiTranslator.UI</RootNamespace>
+    <AssemblyName>EPiTranslator.UI</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <UseIISExpress>true</UseIISExpress>
+    <IISExpressSSLPort />
+    <IISExpressAnonymousAuthentication />
+    <IISExpressWindowsAuthentication />
+    <IISExpressUseClassicPipelineMode />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Web.DynamicData" />
+    <Reference Include="System.Web.Entity" />
+    <Reference Include="System.Web.ApplicationServices" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.EnterpriseServices" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="app\css\app.css" />
+    <Content Include="app\index.html" />
+    <Content Include="app\js\app.js" />
+    <Content Include="app\js\controllers.js" />
+    <Content Include="app\js\directives.js" />
+    <Content Include="app\js\filters.js" />
+    <Content Include="app\js\services.js" />
+    <Content Include="app\lib\angular\angular-cookies.js" />
+    <Content Include="app\lib\angular\angular-cookies.min.js">
+      <DependentUpon>angular-cookies.js</DependentUpon>
+    </Content>
+    <Content Include="app\lib\angular\angular-loader.js" />
+    <Content Include="app\lib\angular\angular-loader.min.js">
+      <DependentUpon>angular-loader.js</DependentUpon>
+    </Content>
+    <Content Include="app\lib\angular\angular-resource.js" />
+    <Content Include="app\lib\angular\angular-resource.min.js">
+      <DependentUpon>angular-resource.js</DependentUpon>
+    </Content>
+    <Content Include="app\lib\angular\angular-sanitize.js" />
+    <Content Include="app\lib\angular\angular-sanitize.min.js">
+      <DependentUpon>angular-sanitize.js</DependentUpon>
+    </Content>
+    <Content Include="app\lib\angular\angular.js" />
+    <Content Include="app\lib\angular\angular.min.js">
+      <DependentUpon>angular.js</DependentUpon>
+    </Content>
+    <Content Include="app\lib\angular\version.txt" />
+    <Content Include="app\partials\partial1.html" />
+    <Content Include="app\partials\partial2.html" />
+    <Content Include="config\jstd-scenario-adapter-config.js" />
+    <Content Include="scripts\web-server.js" />
+    <Content Include="test\e2e\runner.html" />
+    <Content Include="test\e2e\scenarios.js" />
+    <Content Include="test\lib\angular\angular-mocks.js" />
+    <Content Include="test\lib\angular\angular-scenario.js" />
+    <Content Include="test\lib\angular\jstd-scenario-adapter.js" />
+    <Content Include="test\lib\angular\version.txt" />
+    <Content Include="test\lib\jasmine-jstd-adapter\JasmineAdapter.js" />
+    <Content Include="test\lib\jasmine-jstd-adapter\version.txt" />
+    <Content Include="test\lib\jasmine\index.js" />
+    <Content Include="test\lib\jasmine\jasmine-html.js" />
+    <Content Include="test\lib\jasmine\jasmine.css" />
+    <Content Include="test\lib\jasmine\jasmine.js" />
+    <Content Include="test\lib\jasmine\jasmine_favicon.png" />
+    <Content Include="test\lib\jasmine\version.txt" />
+    <Content Include="test\lib\jstestdriver\JsTestDriver.jar" />
+    <Content Include="test\lib\jstestdriver\version.txt" />
+    <Content Include="test\unit\controllersSpec.js" />
+    <Content Include="test\unit\directivesSpec.js" />
+    <Content Include="test\unit\filtersSpec.js" />
+    <Content Include="test\unit\servicesSpec.js" />
+    <Content Include="Web.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Web.Debug.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Web.Release.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="app\img\.gitignore" />
+    <Content Include="config\jsTestDriver-scenario.conf" />
+    <Content Include="config\jsTestDriver.conf" />
+    <Content Include="logs\.gitignore" />
+    <Content Include="scripts\e2e-test-server.bat" />
+    <Content Include="scripts\e2e-test-server.sh" />
+    <Content Include="scripts\e2e-test.bat" />
+    <Content Include="scripts\e2e-test.sh" />
+    <Content Include="scripts\test-server.bat" />
+    <Content Include="scripts\test-server.sh" />
+    <Content Include="scripts\test.bat" />
+    <Content Include="scripts\test.sh" />
+    <Content Include="scripts\watchr.rb" />
+    <Content Include="test\lib\jasmine\MIT.LICENSE" />
+  </ItemGroup>
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+  </PropertyGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <UseIIS>True</UseIIS>
+          <AutoAssignPort>True</AutoAssignPort>
+          <DevelopmentServerPort>0</DevelopmentServerPort>
+          <DevelopmentServerVPath>/</DevelopmentServerVPath>
+          <IISUrl>http://localhost:6945/</IISUrl>
+          <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>False</UseCustomServer>
+          <CustomServerUrl>
+          </CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

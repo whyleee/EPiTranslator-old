@@ -12,12 +12,18 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{CB271B
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EPiTranslator.TestSite", "EPiTranslator.TestSite\EPiTranslator.TestSite.csproj", "{F1DF498E-96D0-4BF5-B577-56314E121D84}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EPiTranslator.UI", "EPiTranslator.UI\EPiTranslator.UI.csproj", "{84254292-B572-4BEF-86C4-6C9E44115FD7}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{84254292-B572-4BEF-86C4-6C9E44115FD7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{84254292-B572-4BEF-86C4-6C9E44115FD7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{84254292-B572-4BEF-86C4-6C9E44115FD7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{84254292-B572-4BEF-86C4-6C9E44115FD7}.Release|Any CPU.Build.0 = Release|Any CPU
 		{F1DF498E-96D0-4BF5-B577-56314E121D84}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{F1DF498E-96D0-4BF5-B577-56314E121D84}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F1DF498E-96D0-4BF5-B577-56314E121D84}.Release|Any CPU.ActiveCfg = Release|Any CPU
