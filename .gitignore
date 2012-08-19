@@ -35,3 +35,6 @@ _ReSharper*/
 
 # nuget packages
 packages/
+
+# episerver
+License.config
