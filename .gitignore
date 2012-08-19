@@ -34,7 +34,8 @@ _ReSharper*/
 *.ncrunchproject
 
 # nuget packages
-packages/
+packages/*
+!packages/EPiServer.CMS.Web.6.1.379.0/
 
 # episerver
 License.config
