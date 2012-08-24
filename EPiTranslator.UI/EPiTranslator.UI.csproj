@@ -100,6 +100,13 @@
     <Content Include="app\lib\bootstrap.min.js">
       <DependentUpon>bootstrap.js</DependentUpon>
     </Content>
+    <None Include="app\lib\jquery-1.8.0.intellisense.js">
+      <DependentUpon>jquery-1.8.0.js</DependentUpon>
+    </None>
+    <Content Include="app\lib\jquery-1.8.0.js" />
+    <Content Include="app\lib\jquery-1.8.0.min.js">
+      <DependentUpon>jquery-1.8.0.js</DependentUpon>
+    </Content>
     <Content Include="app\partials\partial1.html" />
     <Content Include="app\partials\partial2.html" />
     <Content Include="config\jstd-scenario-adapter-config.js" />
