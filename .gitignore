@@ -41,5 +41,6 @@ packages/*
 License.config
 
 # hard links
-Scripts/
-Content/
+EPiTranslator.UI/Scripts/
+EPiTranslator.UI/Content/
+EPiTranslator.UI/app/css/images/
