@@ -39,3 +39,7 @@ packages/*
 
 # episerver
 License.config
+
+# hard links
+Scripts/
+Content/

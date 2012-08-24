@@ -19,6 +19,8 @@
     <IISExpressAnonymousAuthentication />
     <IISExpressWindowsAuthentication />
     <IISExpressUseClassicPipelineMode />
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
+    <RestorePackages>true</RestorePackages>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -58,6 +60,12 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="app\css\app.css" />
+    <Content Include="app\css\bootstrap-responsive.css" />
+    <Content Include="app\css\bootstrap-responsive.min.css" />
+    <Content Include="app\css\bootstrap.css" />
+    <Content Include="app\css\bootstrap.min.css" />
+    <Content Include="app\img\glyphicons-halflings-white.png" />
+    <Content Include="app\img\glyphicons-halflings.png" />
     <Content Include="app\index.html" />
     <Content Include="app\js\app.js" />
     <Content Include="app\js\controllers.js" />
@@ -85,10 +93,14 @@
       <DependentUpon>angular.js</DependentUpon>
     </Content>
     <Content Include="app\lib\angular\version.txt" />
+    <Content Include="app\lib\bootstrap.js" />
+    <Content Include="app\lib\bootstrap.min.js">
+      <DependentUpon>bootstrap.js</DependentUpon>
+    </Content>
     <Content Include="app\partials\partial1.html" />
     <Content Include="app\partials\partial2.html" />
     <Content Include="config\jstd-scenario-adapter-config.js" />
-    <Content Include="scripts\web-server.js" />
+    <Content Include="runtime\web-server.js" />
     <Content Include="test\e2e\runner.html" />
     <Content Include="test\e2e\scenarios.js" />
     <Content Include="test\lib\angular\angular-mocks.js" />
@@ -125,20 +137,22 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="app\img\.gitignore" />
     <Content Include="config\jsTestDriver-scenario.conf" />
     <Content Include="config\jsTestDriver.conf" />
     <Content Include="logs\.gitignore" />
-    <Content Include="scripts\e2e-test-server.bat" />
-    <Content Include="scripts\e2e-test-server.sh" />
-    <Content Include="scripts\e2e-test.bat" />
-    <Content Include="scripts\e2e-test.sh" />
-    <Content Include="scripts\test-server.bat" />
-    <Content Include="scripts\test-server.sh" />
-    <Content Include="scripts\test.bat" />
-    <Content Include="scripts\test.sh" />
-    <Content Include="scripts\watchr.rb" />
+    <Content Include="runtime\e2e-test-server.bat" />
+    <Content Include="runtime\e2e-test-server.sh" />
+    <Content Include="runtime\e2e-test.bat" />
+    <Content Include="runtime\e2e-test.sh" />
+    <Content Include="runtime\test-server.bat" />
+    <Content Include="runtime\test-server.sh" />
+    <Content Include="runtime\test.bat" />
+    <Content Include="runtime\test.sh" />
+    <Content Include="runtime\watchr.rb" />
     <Content Include="test\lib\jasmine\MIT.LICENSE" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="packages.config" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
@@ -165,6 +179,7 @@
       </FlavorProperties>
     </VisualStudio>
   </ProjectExtensions>
+  <Import Project="$(SolutionDir)\.nuget\nuget.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
