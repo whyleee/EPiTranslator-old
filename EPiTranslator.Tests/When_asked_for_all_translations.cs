@@ -11,7 +11,7 @@ namespace EPiTranslator.Tests
     {
         static TranslationsController translations;
         static Get factory;
-        static IDictionary<string, IEnumerable<Translation>> result;
+        static IEnumerable<DictionaryEntry> result;
 
         Establish context = () =>
         {
@@ -20,12 +20,15 @@ namespace EPiTranslator.Tests
             factory = SubstituteAll.For<Get>();
             Get.The = factory;
 
-            //Get.The.Translator.Returns(Substitute.For<Translator>());
+            var language1 = new Language {Id = "en", Name = "English"};
+            var language2 = new Language {Id = "da", Name = "Danish"};
+
+            factory.Translator.GetAllLanguages().Returns(new[] {language1, language2});
 
             var enTranslation1 = new Translation
                 {
                     Keyword = "Name",
-                    Value = "Email",
+                    Value = "Name",
                     Language = "en",
                     Category = "Dictionary"
                 };
@@ -44,10 +47,10 @@ namespace EPiTranslator.Tests
                     Category = "Dictionary"
                 };
 
-            var translationsData = new Dictionary<string, IEnumerable<Translation>>
+            var translationsData = new List<Dictionary>
                 {
-                    {"en", new[] {enTranslation1, enTranslation2}},
-                    {"da", new[] {daTranslation1}}
+                    new Dictionary {Language = "en", Entries = new[] {enTranslation1, enTranslation2}},
+                    new Dictionary {Language = "da", Entries = new[] {daTranslation1}}
                 };
 
             factory.Translator.GetAllTranslations().Returns(translationsData);
@@ -57,6 +60,12 @@ namespace EPiTranslator.Tests
 
         It should_not_be_null = () => result.ShouldNotBeNull();
 
-        It should_have_2_languages = () => result.ShouldMatch(x => x.Keys.Count == 2);
+        It should_have_2_entries = () => result.ShouldMatch(x => x.Count() == 2);
+
+        It should_have_first_entry_with_translations_for_all_languages =
+            () => result.First().Translations.ShouldMatch(x => x.Count() == 2);
+
+        It should_have_second_entry_with_translations_for_all_languages =
+            () => result.Last().Translations.ShouldMatch(x => x.Count() == 2);
     }
 }

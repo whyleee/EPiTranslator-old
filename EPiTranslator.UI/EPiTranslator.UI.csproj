@@ -41,6 +41,9 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="NSubstitute">
+      <HintPath>..\packages\NSubstitute.1.4.3.0\lib\NET40\NSubstitute.dll</HintPath>
+    </Reference>
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
@@ -169,6 +172,10 @@
     <Content Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\EPiTranslator.Tests\EPiTranslator.Tests.csproj">
+      <Project>{7DD1287D-1A86-4CEF-9AF7-B84D74F9BA2C}</Project>
+      <Name>EPiTranslator.Tests</Name>
+    </ProjectReference>
     <ProjectReference Include="..\EPiTranslator\EPiTranslator.csproj">
       <Project>{FCDB8A6D-8DCB-42C7-BC35-AF1A7DD7E587}</Project>
       <Name>EPiTranslator</Name>

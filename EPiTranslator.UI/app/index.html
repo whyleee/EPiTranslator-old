@@ -18,17 +18,29 @@
     <li><a href="#/view2">view2</a></li>
   </ul>
   
-  <table class="table">
-    <thead>
-      <tr>
-        
-      </tr>
-    </thead>
-  </table>
+  <section id="translations" ng-controller="TranslationsCtrl">
+    <table class="table">
+      <thead>
+        <th>Keyword</th>
+        <th ng-repeat="lang in langs">
+          {{lang.Name}}
+        </th>
+      </thead>
+      <tbody>
+        <tr ng-repeat="entry in entries">
+          <td>{{entry.Keyword}}</td>
+          
+          <td ng-repeat="translation in entry.Translations">
+            {{translation.Value}}
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
 
   <div ng-view></div>
 
-  <div>Angular seed app: v<span app-version></span></div>
+  <div>Translator app: v<span app-version></span></div>
   
   <!-- libs -->
   <script src="lib/jquery-1.8.0.js"></script>

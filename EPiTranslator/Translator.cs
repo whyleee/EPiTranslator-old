@@ -181,9 +181,31 @@ namespace EPiTranslator
             return string.Format(translated, arguments);
         }
 
-        public virtual IDictionary<string, IEnumerable<Translation>> GetAllTranslations()
+        public virtual IEnumerable<Language> GetAllLanguages()
         {
-            var translations = new Dictionary<string, IEnumerable<Translation>>();
+            var languages = new List<Language>();
+
+            foreach (var language in SiteLanguages)
+            {
+                var physicalPath = Get.The.HttpContext.Server.MapPath("~/lang/" + string.Format(TranslationsFileName, language));
+
+                if (!Get.The.FileManager.Exists(physicalPath))
+                {
+                    continue;
+                }
+
+                var doc = Get.The.XmlHelper.LoadXml(physicalPath);
+                var languageName = doc.Root.Child("language").Attribute("name").Value;
+
+                languages.Add(new Language {Id = language, Name = languageName});
+            }
+
+            return languages;
+        }
+
+        public virtual IEnumerable<Dictionary> GetAllTranslations()
+        {
+            var translations = new List<Dictionary>();
 
             foreach (var language in SiteLanguages)
             {
@@ -209,7 +231,13 @@ namespace EPiTranslator
                         })
                     .ToList();
 
-                translations.Add(language, translationsForLanguage);
+                var dictionary = new Dictionary
+                    {
+                        Language = language,
+                        Entries = translationsForLanguage
+                    };
+
+                translations.Add(dictionary);
             }
 
             return translations;

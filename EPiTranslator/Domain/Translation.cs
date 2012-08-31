@@ -14,7 +14,7 @@ namespace EPiTranslator
         /// Gets or sets the keyword used for search the translation.
         /// </summary>
         /// <value>
-        /// The Translation used for search the translation.
+        /// The keyword used for search the translation.
         /// </value>
         public string Keyword { get; set; }
 
@@ -40,6 +40,7 @@ namespace EPiTranslator
         /// <value>
         /// Translation language.
         /// </value>
+        /// <remarks>Refers to <see cref="EPiTranslator.Language.Id"/> property.</remarks>
         public string Language { get; set; }
 
         /// <summary>

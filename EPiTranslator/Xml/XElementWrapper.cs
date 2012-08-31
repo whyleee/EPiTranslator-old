@@ -134,6 +134,16 @@ namespace EPiTranslator.Xml
         }
 
         /// <summary>
+        /// Returns element attribute for the specified name.
+        /// </summary>
+        /// <param name="name">Attribute name.</param>
+        /// <returns>Element attribute for the specified name.</returns>
+        public virtual XAttribute Attribute(string name)
+        {
+            return Wrapped.Attribute(name);
+        }
+
+        /// <summary>
         /// Adds the specified element as a child to this node.
         /// </summary>
         /// <param name="element">The element to add as a child to this node.</param>

@@ -53,6 +53,7 @@
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SubstituteAll.cs" />
+    <Compile Include="When_asked_for_all_languages.cs" />
     <Compile Include="When_asked_for_all_translations.cs" />
   </ItemGroup>
   <ItemGroup>

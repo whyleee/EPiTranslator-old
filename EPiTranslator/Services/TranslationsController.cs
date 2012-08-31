@@ -8,9 +8,51 @@ namespace EPiTranslator.Services
 {
     public class TranslationsController : ApiController
     {
-        public IDictionary<string, IEnumerable<Translation>> GetAll()
+        public IEnumerable<DictionaryEntry> GetAll()
         {
-            return Get.The.Translator.GetAllTranslations();
+            var languages = Get.The.Translator.GetAllLanguages();
+            var dictionaries = Get.The.Translator.GetAllTranslations();
+
+            return dictionaries
+                .SelectMany(dict => dict.Entries)
+                .GroupBy(entry => entry.Keyword)
+                .Select(translations => new DictionaryEntry
+                    {
+                        Keyword = translations.Key,
+                        Category = translations.First().Category,
+                        Translations = MapTranslations(translations, languages)
+                    });
+        }
+
+        private IEnumerable<Translation> MapTranslations(IEnumerable<Translation> translations, IEnumerable<Language> toLanguages)
+        {
+            translations = translations.ToList();
+
+            var template = translations.First();
+            var translationsToAllLanguages = new List<Translation>();
+
+            foreach (var language in toLanguages)
+            {
+                var existingTranslation = translations.FirstOrDefault(x => x.Language == language.Id);
+
+                if (existingTranslation != null)
+                {
+                    translationsToAllLanguages.Add(existingTranslation);
+                }
+                else
+                {
+                    var emptyTranslation = new Translation
+                    {
+                        Keyword = template.Keyword,
+                        Language = language.Id,
+                        Category = template.Category
+                    };
+
+                    translationsToAllLanguages.Add(emptyTranslation);
+                }
+            }
+
+            return translationsToAllLanguages;
         }
     }
 }
