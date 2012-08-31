@@ -131,7 +131,8 @@
     <Compile Include="Get.Internal.cs" />
     <Compile Include="LocalizationExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Services\TranslatorController.cs" />
+    <Compile Include="Services\TranslationsController.cs" />
+    <Compile Include="Translation.cs" />
     <Compile Include="Translator.cs" />
     <Compile Include="Xml\XDocumentWrapper.cs" />
     <Compile Include="Xml\XElementWrapper.cs" />

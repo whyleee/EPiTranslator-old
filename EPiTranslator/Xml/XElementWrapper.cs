@@ -76,6 +76,35 @@ namespace EPiTranslator.Xml
         }
 
         /// <summary>
+        /// Gets the parent element for this element.
+        /// </summary>
+        /// <value>
+        /// The parent element for this element.
+        /// </value>
+        public virtual XElementWrapper Parent
+        {
+            get
+            {
+                var parent = Wrapped.Parent;
+                return parent != null ? new XElementWrapper(parent) : null;
+            }
+        }
+
+        /// <summary>
+        /// Gets a value indicating whether this element has at least one child element.
+        /// </summary>
+        /// <value>
+        /// <c>true</c> if this element has at least one child element; otherwise, <c>false</c>.
+        /// </value>
+        public virtual bool HasElements
+        {
+            get
+            {
+                return Wrapped.HasElements;
+            }
+        }
+
+        /// <summary>
         /// Gets the first child for this element with the specified name.
         /// </summary>
         /// <param name="name">The name of child element to search.</param>
@@ -93,6 +122,15 @@ namespace EPiTranslator.Xml
         public virtual IEnumerable<XElementWrapper> Children()
         {
             return Wrapped.Elements().Select(child => new XElementWrapper(child));
+        }
+
+        /// <summary>
+        /// Returns a collection of all descendant elements for this element.
+        /// </summary>
+        /// <returns>Collection of all descendant elements for this element.</returns>
+        public virtual IEnumerable<XElementWrapper> Descendants()
+        {
+            return Wrapped.Descendants().Select(element => new XElementWrapper(element));
         }
 
         /// <summary>

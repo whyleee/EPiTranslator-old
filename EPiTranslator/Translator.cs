@@ -181,6 +181,67 @@ namespace EPiTranslator
             return string.Format(translated, arguments);
         }
 
+        public virtual IDictionary<string, IEnumerable<Translation>> GetAllTranslations()
+        {
+            var translations = new Dictionary<string, IEnumerable<Translation>>();
+
+            foreach (var language in SiteLanguages)
+            {
+                var physicalPath = Get.The.HttpContext.Server.MapPath("~/lang/" + string.Format(TranslationsFileName, language));
+
+                if (!Get.The.FileManager.Exists(physicalPath))
+                {
+                    continue;
+                }
+
+                var doc = Get.The.XmlHelper.LoadXml(physicalPath);
+                var root = doc.Root.Child("language");
+
+                var translationsForLanguage = root.Descendants()
+                    .Where(node => node.HasElements)
+                    .Select(node => new Translation
+                        {
+                            Keyword = node.Name,
+                            Value = node.Value,
+                            Fallback = null,
+                            Language = language,
+                            Category = GetFullCategoryName(node)
+                        })
+                    .ToList();
+
+                translations.Add(language, translationsForLanguage);
+            }
+
+            return translations;
+        }
+
+        private string GetFullTranslationKey(XElementWrapper node)
+        {
+            var parentChain = new List<string>();
+            var current = node;
+
+            while (current != null)
+            {
+                parentChain.Add(current.Name);
+                current = current.Parent;
+            }
+
+            return "/" + string.Join("/", Enumerable.Reverse(parentChain));
+        }
+
+        private string GetFullCategoryName(XElementWrapper node)
+        {
+            var fullKey = GetFullTranslationKey(node);
+            var namePart = fullKey.LastIndexOf("/");
+
+            if (namePart == -1)
+            {
+                return null;
+            }
+
+            return fullKey.Substring(1).Remove(namePart).Replace("/", " - ");
+        }
+
         /// <summary>
         /// Adds the fallback text to the specified path in all EPiServer language files.
         /// </summary>
