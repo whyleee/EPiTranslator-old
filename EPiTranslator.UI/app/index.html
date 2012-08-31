@@ -19,14 +19,17 @@
   </ul>
   
   <section id="translations" ng-controller="TranslationsCtrl">
-    <table class="table">
+    <table class="translations table table-striped table-hover">
       <thead>
         <th>Keyword</th>
         <th ng-repeat="lang in langs">
           {{lang.Name}}
         </th>
       </thead>
-      <tbody>
+      <tbody ng-repeat="(category,entries) in categories">
+        <tr>
+          <td colspan="3">{{category}}</td>
+        </tr>
         <tr ng-repeat="entry in entries">
           <td>{{entry.Keyword}}</td>
           

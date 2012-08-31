@@ -6,7 +6,7 @@ function TranslationsCtrl($scope, $http) {
     $scope.langs = data;
   });
   $http.get('/api/translations').success(function(data) {
-    $scope.entries = data;
+    $scope.categories = _.groupBy(data, 'Category');
   });
 }
 

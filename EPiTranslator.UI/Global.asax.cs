@@ -54,6 +54,13 @@ namespace EPiTranslator.UI
                 Language = "en",
                 Category = "Dictionary"
             };
+            var enTranslation3 = new Translation
+            {
+                Keyword = "Hello",
+                Value = "Hello, world!",
+                Language = "en",
+                Category = "Header"
+            };
             var daTranslation1 = new Translation
             {
                 Keyword = "Name",
@@ -61,11 +68,18 @@ namespace EPiTranslator.UI
                 Language = "da",
                 Category = "Dictionary"
             };
+            var daTranslation2 = new Translation
+            {
+                Keyword = "Hello",
+                Value = "Hej, verden!",
+                Language = "da",
+                Category = "Header"
+            };
 
             var translationsData = new List<Dictionary>
                 {
-                    new Dictionary {Language = "en", Entries = new[] {enTranslation1, enTranslation2}},
-                    new Dictionary {Language = "da", Entries = new[] {daTranslation1}}
+                    new Dictionary {Language = "en", Entries = new[] {enTranslation1, enTranslation2, enTranslation3}},
+                    new Dictionary {Language = "da", Entries = new[] {daTranslation1, daTranslation2}}
                 };
 
             factory.Translator.GetAllTranslations().Returns(translationsData);

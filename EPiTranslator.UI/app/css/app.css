@@ -28,3 +28,18 @@
   content: "";
   padding: 0;
 }
+
+
+/* Custom styles */
+
+.translations {
+  
+  }
+
+  .translations tbody tr:first-child td {
+    background-color: gainsboro;
+  }
+
+  .translations tr:not(:first-child) td:first-child {
+    padding-left: 30px;
+  }
