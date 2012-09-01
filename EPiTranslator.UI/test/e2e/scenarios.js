@@ -2,15 +2,39 @@
 
 /* http://docs.angularjs.org/guide/dev_guide.e2e-testing */
 
-describe('my app', function() {
+describe('Translator', function() {
 
   beforeEach(function() {
-    browser().navigateTo('../../app/index.html');
+    browser().navigateTo('/app/index.html');
   });
 
 
   it('should automatically redirect to /view1 when location hash/fragment is empty', function() {
     expect(browser().location().url()).toBe("/view1");
+  });
+
+
+  describe('Translations table', function() {
+    it('should have column for each received language', function() {
+      expect(repeater('.translations .language-col').count()).toBe(2);
+    });
+
+    it('language columns should show language display names', function () {
+      expect(element('.translations .language-col:eq(0)').text()).toBe('English');
+      expect(element('.translations .language-col:eq(1)').text()).toBe('Danish');
+    });
+
+    it('should have been grouped by categories', function() {
+      expect(element('.translations .category').count()).toBe(2);
+      expect(element('.translations .category:first .category-header').text()).toBe('Dictionary');
+      expect(element('.translations .category:last .category-header').text()).toBe('Header');
+    });
+
+    it('categories should list keyword and translation for each language', function () {
+      expect(element('.translations .category:first .keyword:nth(0)').text()).toBe('Name');
+      expect(element('.translations .category:first .translation:nth(0)').text()).toBe('Name');
+      expect(element('.translations .category:first .translation:nth(1)').text()).toBe('Navn');
+    });
   });
 
 

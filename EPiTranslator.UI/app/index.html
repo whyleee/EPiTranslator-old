@@ -21,19 +21,19 @@
   <section id="translations" ng-controller="TranslationsCtrl">
     <table class="translations table table-striped table-hover">
       <thead>
-        <th>Keyword</th>
-        <th ng-repeat="lang in langs">
+        <th class="keyword-col">Keyword</th>
+        <th class="language-col" ng-repeat="lang in langs">
           {{lang.Name}}
         </th>
       </thead>
-      <tbody ng-repeat="(category,entries) in categories">
-        <tr>
-          <td colspan="3">{{category}}</td>
+      <tbody class="category" ng-repeat="(category,entries) in categories">
+        <tr class="category-header">
+          <th colspan="3">{{category}}</th>
         </tr>
         <tr ng-repeat="entry in entries">
-          <td>{{entry.Keyword}}</td>
+          <td class="keyword">{{entry.Keyword}}</td>
           
-          <td ng-repeat="translation in entry.Translations">
+          <td class="translation" ng-repeat="translation in entry.Translations">
             {{translation.Value}}
           </td>
         </tr>

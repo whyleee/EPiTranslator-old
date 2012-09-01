@@ -36,10 +36,10 @@
   
   }
 
-  .translations tbody tr:first-child td {
+  .translations tbody tr.category-header th {
     background-color: gainsboro;
   }
 
-  .translations tr:not(:first-child) td:first-child {
+  .translations tr td:first-child {
     padding-left: 30px;
   }
