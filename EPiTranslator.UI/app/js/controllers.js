@@ -1,12 +1,10 @@
 'use strict';
 
 /* Controllers */
-function TranslationsCtrl($scope, $http) {
-  $http.get('/api/languages').success(function(data) {
-    $scope.langs = data;
-  });
-  $http.get('/api/translations').success(function(data) {
-    $scope.categories = _.groupBy(data, 'Category');
+function TranslationsCtrl($scope, storage) {
+  $scope.langs = storage.allLanguages();
+  $scope.categories = storage.all(function (result) {
+    return _.groupBy(result, 'Category');
   });
 }
 

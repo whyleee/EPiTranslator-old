@@ -2,25 +2,116 @@
 
 /* jasmine specs for controllers go here */
 
-  
-describe('TranslationsCtrl', function () {
-  var scope, ctrl, $httpBackend;
 
-  beforeEach(inject(function (_$httpBackend_, $rootScope, $controller) {
+describe('TranslationsCtrl: when called', function () {
+  var scope, ctrl, $httpBackend;
+  
+  beforeEach(function () {
+    this.addMatchers({
+      toEqualData: function (expected) {
+        return angular.equals(this.actual, expected);
+      }
+    });
+  });
+
+  beforeEach(module('translator.services'));
+
+  beforeEach(inject(function (_$httpBackend_, $rootScope, $controller, storage)  {
     // prepare
     $httpBackend = _$httpBackend_;
     scope = $rootScope.$new();
 
     // setups
     $httpBackend.expectGET('/api/languages').
-        respond([
-          { Id: 'en', Name: 'English' },
-          { Id: 'da', Name: 'Danish' }
-        ]);
+      respond([
+        { Id: 'en', Name: 'English' },
+        { Id: 'da', Name: 'Danish' }
+      ]);
     $httpBackend.expectGET('/api/translations').
-        respond([
+      respond([
+        {
+          Keyword: 'Name',
+          Category: 'Dictionary',
+          Translations: [
+            {
+              Keyword: 'Name',
+              Value: 'Name',
+              Language: 'en',
+              Category: 'Dictionary'
+            },
+            {
+              Keyword: 'Name',
+              Value: 'Navn',
+              Language: 'da',
+              Category: 'Dictionary'
+            }
+          ]
+        },
+        {
+          Keyword: 'Email',
+          Category: 'Dictionary',
+          Translations: [
+            {
+              Keyword: 'Email',
+              Value: 'Email',
+              Language: 'en',
+              Category: 'Dictionary'
+            },
+            {
+              Keyword: 'Email',
+              Language: 'da',
+              Category: 'Dictionary'
+            }
+          ]
+        },
+        {
+          Keyword: 'Hello',
+          Category: 'Header',
+          Translations: [
+            {
+              Keyword: 'Hello',
+              Value: 'Hello, world!',
+              Language: 'en',
+              Category: 'Header'
+            },
+            {
+              Keyword: 'Hello',
+              Value: 'Hej, verden!',
+              Language: 'da',
+              Category: 'Header'
+            }
+          ]
+        }
+      ]);
+
+    // act
+    ctrl = $controller(TranslationsCtrl, {$scope: scope, storage: storage});
+  }));
+
+  it('should create langs model with languages got from storage', function () {
+    expect(scope.langs).toEqualData([]);
+    
+    $httpBackend.flush();
+    
+    expect(scope.langs).toEqualData([
+      { Id: 'en', Name: 'English' },
+      { Id: 'da', Name: 'Danish' }
+    ]);
+  });
+
+  it('should create categories model with translations from storage grouped by category', function () {
+    expect(scope.categories).toEqualData([]);
+
+    $httpBackend.flush();
+
+    expect(scope.categories).toEqualData([
+      {
+        Name: 'Dictionary',
+        Entries: [
           {
-            Language: 'en', Entries: [
+            Keyword: 'Name',
+            Category: 'Dictionary',
+            Translations: [
               {
                 Keyword: 'Name',
                 Value: 'Name',
@@ -28,26 +119,44 @@ describe('TranslationsCtrl', function () {
                 Category: 'Dictionary'
               },
               {
+                Keyword: 'Name',
+                Value: 'Navn',
+                Language: 'da',
+                Category: 'Dictionary'
+              }
+            ]
+          },
+          {
+            Keyword: 'Email',
+            Category: 'Dictionary',
+            Translations: [
+              {
                 Keyword: 'Email',
                 Value: 'Email',
                 Language: 'en',
                 Category: 'Dictionary'
               },
               {
+                Keyword: 'Email',
+                Language: 'da',
+                Category: 'Dictionary'
+              }
+            ]
+          }
+        ]
+      },
+      {
+        Name: 'Header',
+        Entries: [
+          {
+            Keyword: 'Hello',
+            Category: 'Header',
+            Translations: [
+              {
                 Keyword: 'Hello',
                 Value: 'Hello, world!',
                 Language: 'en',
                 Category: 'Header'
-              }
-            ]
-          },
-          {
-            Language: 'da', Entries: [
-              {
-                Keyword: 'Name',
-                Value: 'Navn',
-                Language: 'da',
-                Category: 'Dictionary'
               },
               {
                 Keyword: 'Hello',
@@ -57,20 +166,8 @@ describe('TranslationsCtrl', function () {
               }
             ]
           }
-        ]);
-
-    // act
-    ctrl = $controller(TranslationsCtrl, { $scope: scope });
-  }));
-
-  it('should create langs model with 2 languages fetched from xhr', function () {
-    expect(scope.langs).toBeUndefined();
-
-    $httpBackend.flush();
-
-    expect(scope.langs).toEqual([
-      { Id: 'en', Name: 'English' },
-      { Id: 'da', Name: 'Danish' }
+        ]
+      }
     ]);
   });
 });
