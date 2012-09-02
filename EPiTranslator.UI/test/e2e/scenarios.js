@@ -10,12 +10,12 @@ describe('Translator', function() {
 
 
   it('should automatically redirect to /translations when location hash/fragment is empty', function() {
-    expect(browser().location().url()).toBe("/translations");
+    expect(browser().location().url()).toBe("/translations/");
   });
 
 
   describe('Translations table', function() {
-    it('should have column for each received language', function() {
+    it('should have column for each received language', function () {
       expect(repeater('#translations .language-col').count()).toBe(2);
     });
 

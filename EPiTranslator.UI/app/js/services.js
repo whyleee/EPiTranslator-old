@@ -6,7 +6,7 @@ angular.module('translator.services', ['ngResource']).
     var languages;
 
     // Filters result using provided function.
-    var filterResult = function(result, filter) {
+    var filterResult = function(store, result, filter) {
       if (!filter) {
         return;
       }
@@ -17,31 +17,39 @@ angular.module('translator.services', ['ngResource']).
         return;
       }
 
-      result.length = 0;
+      store.length = 0;
 
       if (filtered instanceof Array) {
-        result.push.apply(result, filtered);
+        store.push.apply(store, filtered);
       } else {
         for (var prop in filtered) {
-          result.push({Name: prop, Entries: filtered[prop]});
+          var item = { Name: prop, Entries: filtered[prop] };
+          for (var entry in item.Entries) {
+            if (isNaN(parseInt(entry))) {
+              item[entry] = item.Entries[entry];
+            }
+          }
+          store.push(item);
         }
       }
     };
 
     return {
-      all: function(filter) {
+      all: function (filter) {
+        var res = $resource('/api/translations').query(function (result) {
+          filterResult(translations, result, filter);
+        });
         if (!translations) {
-          translations = $resource('/api/translations').query(function () {
-            filterResult(translations, filter);
-          });
+          translations = res;
         }
         return translations;
       },
       allLanguages: function (filter) {
+        var res = $resource('/api/languages').query(function (result) {
+          filterResult(languages, result, filter);
+        });
         if (!languages) {
-          languages = $resource('/api/languages').query(function () {
-            filterResult(languages, filter);
-          });
+          languages = res;
         }
         return languages;
       }

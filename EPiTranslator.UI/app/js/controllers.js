@@ -1,19 +1,30 @@
 'use strict';
 
-function TranslationsCtrl($scope, $cookieStore, storage) {
+function TranslationsCtrl($scope, $cookieStore, storage, $routeParams) {
+  // set languages
   $scope.langs = storage.allLanguages(function (result) {
     var selectedLangs = $cookieStore.get('selectedLangs');
     
     if (selectedLangs && selectedLangs.length > 0) {
-      _.each(result, function (lang) { lang.selected = _.any(selectedLangs, function (langId) { return langId == lang.Id; }); });
+      _.each(result, function (lang) {
+        lang.selected = _.any(selectedLangs, function (langId) {return langId == lang.Id;});
+      });
     } else {
       _.each(result, function(lang) { lang.selected = true; });
     }
   });
+  
+  // set translations grouped by category
   $scope.categories = storage.all(function (result) {
-    return _.groupBy(result, 'Category');
+    var all = _.groupBy(result, 'Category');
+    if ($routeParams.category) {
+      all[$routeParams.category].active = true;
+    }
+    return all;
   });
+  $scope.selectedCategory = $routeParams.category;
 
+  // watchers
   $scope.$watch('langs', function () {
     if ($scope.langs.length > 0) {
       $cookieStore.put('selectedLangs', $scope.selectedLangs);
@@ -22,7 +33,9 @@ function TranslationsCtrl($scope, $cookieStore, storage) {
   
   // helpers
   Object.defineProperty($scope, 'selectedLangs', {
-    get: function () { return _.pluck($scope.langs.filter(function (lang) { return lang.selected; }), 'Id'); }
+    get: function () {
+      return _.pluck($scope.langs.filter(function (lang) {return lang.selected;}), 'Id');
+    }
   });
   
   // filters
