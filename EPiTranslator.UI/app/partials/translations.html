@@ -10,6 +10,11 @@
           </label>
         </form>
       </div>
+      <div class="search">
+        <form class="form-search">
+          <input type="search" class="input-xxlarge" ng-model="query" placeholder="Filter by phrase, keyword or category..." autofocus/>
+        </form>
+      </div>
     </section>
   </div>
     
@@ -33,11 +38,11 @@
             {{lang.Name}}
           </th>
         </thead>
-        <tbody class="category" ng-repeat="category in categories | filter:selectedCategory">
+        <tbody class="category" ng-repeat="category in categories | filter:selectedCategory | filter:query">
           <tr class="category-header">
             <th colspan="3">{{category.Name}}</th>
           </tr>
-          <tr ng-repeat="entry in category.Entries">
+          <tr ng-repeat="entry in category.Entries | filter:query">
             <td class="keyword">{{entry.Keyword}}</td>
           
             <td class="translation" ng-repeat="translation in entry.Translations | filter:forSelectedLangs">
