@@ -3,7 +3,7 @@
 /* jasmine specs for controllers go here */
 
 describe('TranslationsCtrl:', function () {
-  var scope, ctrl, $httpBackend, $cookieStore, storage;
+  var scope, ctrl, $httpBackend, $cookieStore, storage, $routeParams;
   
   beforeEach(function () {
     this.addMatchers({
@@ -15,10 +15,11 @@ describe('TranslationsCtrl:', function () {
 
   beforeEach(module('ngCookies', 'translator.services'));
 
-  beforeEach(inject(function (_$httpBackend_, $rootScope, $controller, _$cookieStore_, _storage_) {
+  beforeEach(inject(function (_$httpBackend_, $rootScope, $controller, _$cookieStore_, _storage_, _$routeParams_) {
     // prepare
     $httpBackend = _$httpBackend_;
     $cookieStore = _$cookieStore_;
+    $routeParams = _$routeParams_;
     scope = $rootScope.$new();
     ctrl = $controller;
     storage = _storage_;
@@ -91,7 +92,7 @@ describe('TranslationsCtrl:', function () {
         ]);
 
       // act
-      ctrl(TranslationsCtrl, { $scope: scope, $cookieStore: $cookieStore, storage: storage });
+      ctrl(TranslationsCtrl, { $scope: scope, $cookieStore: $cookieStore, storage: storage, $routeParams: $routeParams });
     });
 
 
@@ -208,7 +209,7 @@ describe('TranslationsCtrl:', function () {
       $cookieStore.put('selectedLangs', ['en']);
 
       // act
-      ctrl(TranslationsCtrl, { $scope: scope, $cookieStore: $cookieStore, storage: storage });
+      ctrl(TranslationsCtrl, { $scope: scope, $cookieStore: $cookieStore, storage: storage, $routeParams: $routeParams });
     });
 
 
@@ -235,7 +236,7 @@ describe('TranslationsCtrl:', function () {
       $httpBackend.expectGET('/api/translations').respond([]);
 
       // act
-      ctrl(TranslationsCtrl, { $scope: scope, $cookieStore: $cookieStore, storage: storage });
+      ctrl(TranslationsCtrl, { $scope: scope, $cookieStore: $cookieStore, storage: storage, $routeParams: $routeParams });
     });
 
     it('should update cookie with selected languages', function () {
@@ -247,6 +248,60 @@ describe('TranslationsCtrl:', function () {
       scope.$digest();
 
       expect($cookieStore.put).toHaveBeenCalledWith('selectedLangs', ['en']);
+    });
+  });
+
+
+  describe('when called for category', function() {
+
+    beforeEach(function () {
+      // setups
+      $httpBackend.expectGET('/api/languages').
+        respond([
+          { Id: 'en', Name: 'English' }
+        ]);
+      $httpBackend.expectGET('/api/translations').
+        respond([
+          {
+            Keyword: 'Name',
+            Category: 'Dictionary',
+            Translations: [
+              {
+                Keyword: 'Name',
+                Value: 'Name',
+                Language: 'en',
+                Category: 'Dictionary'
+              }
+            ]
+          },
+          {
+            Keyword: 'Hello',
+            Category: 'Header',
+            Translations: [
+              {
+                Keyword: 'Hello',
+                Value: 'Hello, world!',
+                Language: 'en',
+                Category: 'Header'
+              }
+            ]
+          }
+        ]);
+
+      $routeParams.category = 'Dictionary';
+
+      // act
+      ctrl(TranslationsCtrl, {$scope: scope, $cookieStore: $cookieStore, storage: storage, $routeParams: $routeParams});
+    });
+
+    it('should set selected category model', function() {
+      expect(scope.selectedCategory).toBe('Dictionary');
+    });
+
+    it('should set selected category active in translations', function () {
+      $httpBackend.flush();
+      
+      expect(scope.categories[0].active).toBeTruthy();
     });
   });
 });

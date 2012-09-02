@@ -25,7 +25,7 @@ describe('Translator', function() {
     });
 
     it('should have been grouped by categories', function() {
-      expect(element('#translations .category').count()).toBe(2);
+      expect(repeater('#translations .category').count()).toBe(2);
       expect(element('#translations .category:first .category-header').text()).toMatch('Dictionary');
       expect(element('#translations .category:last .category-header').text()).toMatch('Header');
     });
@@ -34,6 +34,13 @@ describe('Translator', function() {
       expect(element('#translations .category:first .keyword:nth(0)').text()).toMatch('Name');
       expect(element('#translations .category:first .translation:nth(0)').text()).toMatch('Name');
       expect(element('#translations .category:first .translation:nth(1)').text()).toMatch('Navn');
+    });
+
+    it('should filter categories by selected', function() {
+      browser().navigateTo('/app/index.html#/translations/Dictionary');
+      
+      expect(repeater('#translations .category').count()).toBe(1);
+      expect(element('#translations .category:first .category-header').text()).toMatch('Dictionary');
     });
   });
 
@@ -54,6 +61,22 @@ describe('Translator', function() {
       input('lang.selected').check();
       
       expect(repeater('#translations .language-col').count()).toBe(0);
+    });
+  });
+
+
+  describe('Category selector', function() {
+    it('should show all categories with additional "All" entry', function() {
+      expect(repeater('#categories li').count()).toBe(3);
+      expect(element('#categories li:nth(0)').text()).toMatch('All');
+      expect(element('#categories li:nth(1)').text()).toMatch('Dictionary');
+      expect(element('#categories li:nth(2)').text()).toMatch('Header');
+    });
+
+    it('should go to category view when clicked', function() {
+      element('#categories li:nth(1) a').click();
+      
+      expect(browser().location().url()).toBe("/translations/Dictionary");
     });
   });
 });
