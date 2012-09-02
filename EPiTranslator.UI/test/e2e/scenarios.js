@@ -42,6 +42,38 @@ describe('Translator', function() {
       expect(repeater('#translations .category').count()).toBe(1);
       expect(element('#translations .category:first .category-header').text()).toMatch('Dictionary');
     });
+
+    it('should filter categories while typing part of the category name into the search box', function() {
+      expect(repeater('#translations .category').count()).toBe(2);
+
+      input('query').enter('dict');
+      expect(repeater('#translations .category').count()).toBe(1);
+      expect(element('#translations .category:first .category-header').text()).toMatch('Dictionary');
+    });
+
+    it('should filter entries while typing part of the keyword into the search box', function() {
+      expect(repeater('#translations .keyword').count()).toBe(3);
+
+      input('query').enter('em');
+      expect(repeater('#translations .keyword').count()).toBe(1);
+      expect(element('#translations .keyword:first').text()).toMatch('Email');
+    });
+    
+    it('should filter entries while typing part of the translation into the search box', function () {
+      expect(repeater('#translations .keyword').count()).toBe(3);
+
+      input('query').enter('avn');
+      expect(repeater('#translations .keyword').count()).toBe(1);
+      expect(element('#translations .keyword:first').text()).toMatch('Name');
+    });
+
+    it('should filter categories while typing part of the keyword into the search box', function() {
+      expect(repeater('#translations .category').count()).toBe(2);
+
+      input('query').enter('hello');
+      expect(repeater('#translations .category').count()).toBe(1);
+      expect(element('#translations .category:first .category-header').text()).toMatch('Header');
+    });
   });
 
 
