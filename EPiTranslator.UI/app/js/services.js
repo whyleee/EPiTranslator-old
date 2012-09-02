@@ -17,6 +17,11 @@ angular.module('translator.services', ['ngResource']).
       }
 
       var filtered = filter(result);
+      
+      if (!filtered) {
+        return;
+      }
+
       result.length = 0;
 
       if (filtered instanceof Array) {
@@ -37,9 +42,11 @@ angular.module('translator.services', ['ngResource']).
         }
         return translations;
       },
-      allLanguages: function () {
+      allLanguages: function (filter) {
         if (!languages) {
-          languages = $resource('/api/languages').query();
+          languages = $resource('/api/languages').query(function () {
+            filterResult(languages, filter);
+          });
         }
         return languages;
       }
