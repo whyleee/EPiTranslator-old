@@ -38,6 +38,26 @@ describe('Translator', function() {
   });
 
 
+  describe('Language selector', function () {
+
+    it('should show checkboxes for all languages', function() {
+      expect(repeater('.language-selector .checkbox').count()).toBe(2);
+      expect(element('.language-selector .checkbox:nth(0)').text()).toBe('English');
+      expect(element('.language-selector .checkbox:nth(1)').text()).toBe('Danish');
+    });
+
+    it('should check only checkboxes for selected languages', function () {
+      expect(repeater('.language-selector .checkbox input:checked').count()).toBe(2);
+    });
+
+    it('should hide language column in translation table after unselecting a language', function() {
+      input('lang.selected').check();
+      
+      expect(repeater('.translations .language-col').count()).toBe(0);
+    });
+  });
+
+
   describe('view1', function() {
 
     beforeEach(function() {
