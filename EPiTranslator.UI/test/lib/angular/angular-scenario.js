@@ -25641,10 +25641,6 @@ angular.scenario.matcher('toEqual', function(expected) {
 });
 
 angular.scenario.matcher('toBe', function (expected) {
-  if ((typeof this.actual == 'string' || this.actual instanceof String) &&
-      (typeof expected == 'string' || expected instanceof String)) {
-    return this.actual.trim() === expected.trim();
-  }
   return this.actual === expected;
 });
   

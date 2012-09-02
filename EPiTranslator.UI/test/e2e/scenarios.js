@@ -9,31 +9,31 @@ describe('Translator', function() {
   });
 
 
-  it('should automatically redirect to /view1 when location hash/fragment is empty', function() {
-    expect(browser().location().url()).toBe("/view1");
+  it('should automatically redirect to /translations when location hash/fragment is empty', function() {
+    expect(browser().location().url()).toBe("/translations");
   });
 
 
   describe('Translations table', function() {
     it('should have column for each received language', function() {
-      expect(repeater('.translations .language-col').count()).toBe(2);
+      expect(repeater('#translations .language-col').count()).toBe(2);
     });
 
     it('language columns should show language display names', function () {
-      expect(element('.translations .language-col:eq(0)').text()).toBe('English');
-      expect(element('.translations .language-col:eq(1)').text()).toBe('Danish');
+      expect(element('#translations .language-col:eq(0)').text()).toMatch('English');
+      expect(element('#translations .language-col:eq(1)').text()).toMatch('Danish');
     });
 
     it('should have been grouped by categories', function() {
-      expect(element('.translations .category').count()).toBe(2);
-      expect(element('.translations .category:first .category-header').text()).toBe('Dictionary');
-      expect(element('.translations .category:last .category-header').text()).toBe('Header');
+      expect(element('#translations .category').count()).toBe(2);
+      expect(element('#translations .category:first .category-header').text()).toMatch('Dictionary');
+      expect(element('#translations .category:last .category-header').text()).toMatch('Header');
     });
 
     it('categories should list keyword and translation for each language', function () {
-      expect(element('.translations .category:first .keyword:nth(0)').text()).toBe('Name');
-      expect(element('.translations .category:first .translation:nth(0)').text()).toBe('Name');
-      expect(element('.translations .category:first .translation:nth(1)').text()).toBe('Navn');
+      expect(element('#translations .category:first .keyword:nth(0)').text()).toMatch('Name');
+      expect(element('#translations .category:first .translation:nth(0)').text()).toMatch('Name');
+      expect(element('#translations .category:first .translation:nth(1)').text()).toMatch('Navn');
     });
   });
 
@@ -42,8 +42,8 @@ describe('Translator', function() {
 
     it('should show checkboxes for all languages', function() {
       expect(repeater('.language-selector .checkbox').count()).toBe(2);
-      expect(element('.language-selector .checkbox:nth(0)').text()).toBe('English');
-      expect(element('.language-selector .checkbox:nth(1)').text()).toBe('Danish');
+      expect(element('.language-selector .checkbox:nth(0)').text()).toMatch('English');
+      expect(element('.language-selector .checkbox:nth(1)').text()).toMatch('Danish');
     });
 
     it('should check only checkboxes for selected languages', function () {
@@ -53,37 +53,7 @@ describe('Translator', function() {
     it('should hide language column in translation table after unselecting a language', function() {
       input('lang.selected').check();
       
-      expect(repeater('.translations .language-col').count()).toBe(0);
+      expect(repeater('#translations .language-col').count()).toBe(0);
     });
-  });
-
-
-  describe('view1', function() {
-
-    beforeEach(function() {
-      browser().navigateTo('#/view1');
-    });
-
-
-    it('should render view1 when user navigates to /view1', function() {
-      expect(element('[ng-view] p:first').text()).
-        toMatch(/partial for view 1/);
-    });
-
-  });
-
-
-  describe('view2', function() {
-
-    beforeEach(function() {
-      browser().navigateTo('#/view2');
-    });
-
-
-    it('should render view2 when user navigates to /view2', function() {
-      expect(element('[ng-view] p:first').text()).
-        toMatch(/partial for view 2/);
-    });
-
   });
 });

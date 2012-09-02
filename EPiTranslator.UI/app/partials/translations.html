@@ -1,0 +1,52 @@
+﻿<div id="translator" ng-controller="TranslationsCtrl">
+    
+  <div class="row">
+    <section id="controls" class="offset3">
+      <div class="language-selector">
+        <form>
+          <label class="checkbox inline" ng-repeat="lang in langs">
+            <input type="checkbox" id="cb-{{lang.Id}}-language" value="{{lang.Id}}" ng-model="lang.selected" />
+            {{lang.Name}}
+          </label>
+        </form>
+      </div>
+    </section>
+  </div>
+    
+  <div class="row">
+    <section id="categories" class="span3">
+      <ul class="nav nav-pills nav-stacked">
+        <li>
+          <a href="#">All</a>
+        </li>
+        <li ng-repeat="category in categories">
+          <a href="#">{{category.Name}}</a>
+        </li>
+      </ul>
+    </section>
+      
+    <section id="translations" class="span9">
+      <table class="table table-striped table-hover">
+        <thead>
+          <th class="keyword-col">Keyword</th>
+          <th class="language-col" ng-repeat="lang in langs | filter:selected">
+            {{lang.Name}}
+          </th>
+        </thead>
+        <tbody class="category" ng-repeat="category in categories">
+          <tr class="category-header">
+            <th colspan="3">{{category.Name}}</th>
+          </tr>
+          <tr ng-repeat="entry in category.Entries">
+            <td class="keyword">{{entry.Keyword}}</td>
+          
+            <td class="translation" ng-repeat="translation in entry.Translations | filter:forSelectedLangs">
+              {{translation.Value}}
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+  </div>
+
+</div>

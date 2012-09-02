@@ -1,45 +1,22 @@
-/* app css stylesheet */
+/* Translator styles */
 
-.menu {
-  list-style: none;
-  border-bottom: 0.1em solid black;
-  margin-bottom: 2em;
-  padding: 0 0 0.5em;
-}
-
-.menu:before {
-  content: "[";
-}
-
-.menu:after {
-  content: "]";
-}
-
-.menu > li {
-  display: inline;
-}
-
-.menu > li:before {
-  content: "|";
-  padding-right: 0.3em;
-}
-
-.menu > li:nth-child(1):before {
-  content: "";
-  padding: 0;
-}
-
-
-/* Custom styles */
-
-.translations {
+#translations {
   
   }
 
-  .translations tbody tr.category-header th {
+  #translations tbody tr.category-header th {
     background-color: gainsboro;
   }
 
-  .translations tr td:first-child {
+  #translations tr td:first-child {
     padding-left: 30px;
+  }
+
+#categories {
+
+  }
+
+  #categories ul {
+    margin-top: 34px;
+    text-align: right;
   }

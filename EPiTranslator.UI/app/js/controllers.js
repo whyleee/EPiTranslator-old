@@ -1,6 +1,5 @@
 'use strict';
 
-/* Controllers */
 function TranslationsCtrl($scope, $cookieStore, storage) {
   $scope.langs = storage.allLanguages(function (result) {
     var selectedLangs = $cookieStore.get('selectedLangs');
@@ -34,11 +33,3 @@ function TranslationsCtrl($scope, $cookieStore, storage) {
     return _.any($scope.selectedLangs, function (lang) {return lang == translation.Language;});
   };
 }
-
-function MyCtrl1() {}
-MyCtrl1.$inject = [];
-
-
-function MyCtrl2() {
-}
-MyCtrl2.$inject = [];

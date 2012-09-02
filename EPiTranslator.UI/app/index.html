@@ -13,47 +13,6 @@
   <link rel="stylesheet" href="css/app.css"/>
 </head>
 <body>
-  <ul class="menu">
-    <li><a href="#/view1">view1</a></li>
-    <li><a href="#/view2">view2</a></li>
-  </ul>
-  
-  <div id="translator" ng-controller="TranslationsCtrl">
-    <section id="controls">
-      <div class="language-selector">
-        <form>
-          <label class="checkbox inline" ng-repeat="lang in langs">
-            <input type="checkbox" id="cb-{{lang.Id}}-language" value="{{lang.Id}}" ng-model="lang.selected" />
-            {{lang.Name}}
-          </label>
-        </form>
-      </div>
-    </section>
-    
-    <section id="translations">
-      <table class="translations table table-striped table-hover">
-        <thead>
-          <th class="keyword-col">Keyword</th>
-          <th class="language-col" ng-repeat="lang in langs | filter:selected">
-            {{lang.Name}}
-          </th>
-        </thead>
-        <tbody class="category" ng-repeat="category in categories">
-          <tr class="category-header">
-            <th colspan="3">{{category.Name}}</th>
-          </tr>
-          <tr ng-repeat="entry in category.Entries">
-            <td class="keyword">{{entry.Keyword}}</td>
-          
-            <td class="translation" ng-repeat="translation in entry.Translations | filter:forSelectedLangs">
-              {{translation.Value}}
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </section>
-  </div>
-
   <div ng-view></div>
   
   <!-- libs -->

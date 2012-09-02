@@ -115,8 +115,7 @@
     <Content Include="app\lib\underscore.min.js">
       <DependentUpon>underscore.js</DependentUpon>
     </Content>
-    <Content Include="app\partials\partial1.html" />
-    <Content Include="app\partials\partial2.html" />
+    <Content Include="app\partials\translations.html" />
     <Content Include="config\jstd-scenario-adapter-config.js" />
     <Content Include="Global.asax" />
     <Content Include="runtime\web-server.js" />
