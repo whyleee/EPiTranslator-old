@@ -181,20 +181,23 @@ namespace EPiTranslator
             return string.Format(translated, arguments);
         }
 
+        /// <summary>
+        /// Gets all languages registered for all sites in EPiServer.
+        /// </summary>
+        /// <returns>Collection of <see cref="Language"/> objects representing all languages registered for all sites in EPiServer.</returns>
         public virtual IEnumerable<Language> GetAllLanguages()
         {
             var languages = new List<Language>();
 
             foreach (var language in SiteLanguages)
             {
-                var physicalPath = Get.The.HttpContext.Server.MapPath("~/lang/" + string.Format(TranslationsFileName, language));
+                var doc = GetTranslationsStorage(language);
 
-                if (!Get.The.FileManager.Exists(physicalPath))
+                if (doc == null)
                 {
                     continue;
                 }
 
-                var doc = Get.The.XmlHelper.LoadXml(physicalPath);
                 var languageName = doc.Root.Child("language").Attribute("name").Value;
 
                 languages.Add(new Language {Id = language, Name = languageName});
@@ -203,20 +206,23 @@ namespace EPiTranslator
             return languages;
         }
 
+        /// <summary>
+        /// Gets all translations from the storage grouped by language.
+        /// </summary>
+        /// <returns>Collection of <see cref="Dictionary"/> objects representing all translations from the storage grouped by language.</returns>
         public virtual IEnumerable<Dictionary> GetAllTranslations()
         {
             var translations = new List<Dictionary>();
 
             foreach (var language in SiteLanguages)
             {
-                var physicalPath = Get.The.HttpContext.Server.MapPath("~/lang/" + string.Format(TranslationsFileName, language));
+                var doc = GetTranslationsStorage(language);
 
-                if (!Get.The.FileManager.Exists(physicalPath))
+                if (doc == null)
                 {
                     continue;
                 }
 
-                var doc = Get.The.XmlHelper.LoadXml(physicalPath);
                 var root = doc.Root.Child("language");
 
                 var translationsForLanguage = root.Descendants()
@@ -243,6 +249,28 @@ namespace EPiTranslator
             return translations;
         }
 
+        /// <summary>
+        /// Gets the storage for translations for provided language.
+        /// </summary>
+        /// <param name="language">The language.</param>
+        /// <returns><see cref="XDocumentWrapper"/> object representing translations storage.</returns>
+        protected internal virtual XDocumentWrapper GetTranslationsStorage(string language)
+        {
+            var physicalPath = Get.The.HttpContext.Server.MapPath("~/lang/" + string.Format(TranslationsFileName, language));
+
+            if (!Get.The.FileManager.Exists(physicalPath))
+            {
+                return null;
+            }
+
+            return Get.The.XmlHelper.LoadXml(physicalPath);
+        }
+
+        /// <summary>
+        /// Gets full translation key for its node in the storage.
+        /// </summary>
+        /// <param name="node">Translation node in the storage.</param>
+        /// <returns>Full translation key for its node in the storage.</returns>
         private string GetFullTranslationKey(XElementWrapper node)
         {
             var parentChain = new List<string>();
@@ -257,6 +285,11 @@ namespace EPiTranslator
             return "/" + string.Join("/", Enumerable.Reverse(parentChain));
         }
 
+        /// <summary>
+        /// Gets the full name of the category for translation represented by provided node in the storage.
+        /// </summary>
+        /// <param name="node">Translation node in the storage.</param>
+        /// <returns>Full name of the category for translation represented by provided node in the storage.</returns>
         private string GetFullCategoryName(XElementWrapper node)
         {
             var fullKey = GetFullTranslationKey(node);
