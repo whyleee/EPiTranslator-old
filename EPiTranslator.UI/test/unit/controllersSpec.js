@@ -41,12 +41,14 @@ describe('TranslationsCtrl:', function () {
             Category: 'Dictionary',
             Translations: [
               {
+                Key: '/Dictionary/Name',
                 Keyword: 'Name',
                 Value: 'Name',
                 Language: 'en',
                 Category: 'Dictionary'
               },
               {
+                Key: '/Dictionary/Name',
                 Keyword: 'Name',
                 Value: 'Navn',
                 Language: 'da',
@@ -59,12 +61,14 @@ describe('TranslationsCtrl:', function () {
             Category: 'Dictionary',
             Translations: [
               {
+                Key: '/Dictionary/Email',
                 Keyword: 'Email',
                 Value: 'Email',
                 Language: 'en',
                 Category: 'Dictionary'
               },
               {
+                Key: '/Dictionary/Email',
                 Keyword: 'Email',
                 Language: 'da',
                 Category: 'Dictionary'
@@ -76,12 +80,14 @@ describe('TranslationsCtrl:', function () {
             Category: 'Header',
             Translations: [
               {
+                Key: '/Header/Hello',
                 Keyword: 'Hello',
                 Value: 'Hello, world!',
                 Language: 'en',
                 Category: 'Header'
               },
               {
+                Key: '/Header/Hello',
                 Keyword: 'Hello',
                 Value: 'Hej, verden!',
                 Language: 'da',
@@ -135,12 +141,14 @@ describe('TranslationsCtrl:', function () {
               Category: 'Dictionary',
               Translations: [
                 {
+                  Key: '/Dictionary/Name',
                   Keyword: 'Name',
                   Value: 'Name',
                   Language: 'en',
                   Category: 'Dictionary'
                 },
                 {
+                  Key: '/Dictionary/Name',
                   Keyword: 'Name',
                   Value: 'Navn',
                   Language: 'da',
@@ -153,12 +161,14 @@ describe('TranslationsCtrl:', function () {
               Category: 'Dictionary',
               Translations: [
                 {
+                  Key: '/Dictionary/Email',
                   Keyword: 'Email',
                   Value: 'Email',
                   Language: 'en',
                   Category: 'Dictionary'
                 },
                 {
+                  Key: '/Dictionary/Email',
                   Keyword: 'Email',
                   Language: 'da',
                   Category: 'Dictionary'
@@ -175,12 +185,14 @@ describe('TranslationsCtrl:', function () {
               Category: 'Header',
               Translations: [
                 {
+                  Key: '/Header/Hello',
                   Keyword: 'Hello',
                   Value: 'Hello, world!',
                   Language: 'en',
                   Category: 'Header'
                 },
                 {
+                  Key: '/Header/Hello',
                   Keyword: 'Hello',
                   Value: 'Hej, verden!',
                   Language: 'da',
@@ -267,6 +279,7 @@ describe('TranslationsCtrl:', function () {
             Category: 'Dictionary',
             Translations: [
               {
+                Key: '/Dictionary/Name',
                 Keyword: 'Name',
                 Value: 'Name',
                 Language: 'en',
@@ -279,6 +292,7 @@ describe('TranslationsCtrl:', function () {
             Category: 'Header',
             Translations: [
               {
+                Key: '/Header/Hello',
                 Keyword: 'Hello',
                 Value: 'Hello, world!',
                 Language: 'en',

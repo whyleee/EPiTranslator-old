@@ -11,6 +11,14 @@ namespace EPiTranslator
     public class Translation
     {
         /// <summary>
+        /// Gets or sets full translation key.
+        /// </summary>
+        /// <value>
+        /// Full translation key.
+        /// </value>
+        public string Key { get; set; }
+
+        /// <summary>
         /// Gets or sets the keyword used for search the translation.
         /// </summary>
         /// <value>

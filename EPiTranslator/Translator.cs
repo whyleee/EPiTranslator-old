@@ -149,6 +149,26 @@ namespace EPiTranslator
         }
 
         /// <summary>
+        /// Updates translation using specified key in specified language.
+        /// </summary>
+        /// <param name="key">Translation key.</param>
+        /// <param name="translation">New translation.</param>
+        /// <param name="language">Translation language.</param>
+        public virtual void UpdateTranslation(string key, string translation, string language)
+        {
+            AddFallbackTranslation(language, key, translation, updateExisting: true);
+        }
+
+        /// <summary>
+        /// Updates translation.
+        /// </summary>
+        /// <param name="translation">New translation.</param>
+        public virtual void UpdateTranslation(Translation translation)
+        {
+            UpdateTranslation(translation.Key, translation.Value, translation.Language);
+        }
+
+        /// <summary>
         /// Translates the text using specified key (the path of translation element in EPiServer language file),
         /// replacing format items with the string representation of a corresponding object in a specified array.
         /// In case when translated text wasn't found - returns provided fallback.
@@ -229,6 +249,7 @@ namespace EPiTranslator
                     .Where(node => node.HasElements)
                     .Select(node => new Translation
                         {
+                            Key = GetFullTranslationKey(node),
                             Keyword = node.Name,
                             Value = node.Value,
                             Fallback = null,
@@ -323,7 +344,8 @@ namespace EPiTranslator
         /// <param name="locale">Language code to insert a fallback.</param>
         /// <param name="key">The key.</param>
         /// <param name="fallback">The fallback.</param>
-        protected internal virtual void AddFallbackTranslation(string locale, string key, string fallback)
+        /// <param name="updateExisting">Determines whether to update existing translation if found or to skip.</param>
+        protected internal virtual void AddFallbackTranslation(string locale, string key, string fallback, bool updateExisting = false)
         {
             // Open language file.
             var physicalPath = Get.The.HttpContext.Server.MapPath("~/lang/" + string.Format(TranslationsFileName, locale));
@@ -394,8 +416,8 @@ namespace EPiTranslator
                 }
                 else
                 {
-                    // If last element found - skip adding fallback to it.
-                    if (pathElementName == lastPathElementName)
+                    // If last element found and we don't want to override existing translations - skip adding fallback to it.
+                    if (pathElementName == lastPathElementName && !updateExisting)
                     {
                         continue;
                     }

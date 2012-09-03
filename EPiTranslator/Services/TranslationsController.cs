@@ -24,6 +24,11 @@ namespace EPiTranslator.Services
                     });
         }
 
+        public void Update(Translation translation)
+        {
+            Get.The.Translator.UpdateTranslation(translation);
+        }
+
         private IEnumerable<Translation> MapTranslations(IEnumerable<Translation> translations, IEnumerable<Language> toLanguages)
         {
             translations = translations.ToList();
@@ -43,6 +48,7 @@ namespace EPiTranslator.Services
                 {
                     var emptyTranslation = new Translation
                     {
+                        Key = template.Key,
                         Keyword = template.Keyword,
                         Language = language.Id,
                         Category = template.Category

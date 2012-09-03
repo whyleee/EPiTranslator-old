@@ -42,6 +42,7 @@ namespace EPiTranslator.UI
 
             var enTranslation1 = new Translation
             {
+                Key = "/Dictionary/Name",
                 Keyword = "Name",
                 Value = "Name",
                 Language = "en",
@@ -49,6 +50,7 @@ namespace EPiTranslator.UI
             };
             var enTranslation2 = new Translation
             {
+                Key = "/Dictionary/Email",
                 Keyword = "Email",
                 Value = "Email",
                 Language = "en",
@@ -56,6 +58,7 @@ namespace EPiTranslator.UI
             };
             var enTranslation3 = new Translation
             {
+                Key = "/Header/Hello",
                 Keyword = "Hello",
                 Value = "Hello, world!",
                 Language = "en",
@@ -63,6 +66,7 @@ namespace EPiTranslator.UI
             };
             var daTranslation1 = new Translation
             {
+                Key = "/Dictionary/Name",
                 Keyword = "Name",
                 Value = "Navn",
                 Language = "da",
@@ -70,6 +74,7 @@ namespace EPiTranslator.UI
             };
             var daTranslation2 = new Translation
             {
+                Key = "/Header/Hello",
                 Keyword = "Hello",
                 Value = "Hej, verden!",
                 Language = "da",

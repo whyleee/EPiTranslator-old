@@ -27,6 +27,7 @@ namespace EPiTranslator.Tests
 
             var enTranslation1 = new Translation
                 {
+                    Key = "/Dictionary/Name",
                     Keyword = "Name",
                     Value = "Name",
                     Language = "en",
@@ -34,6 +35,7 @@ namespace EPiTranslator.Tests
                 };
             var enTranslation2 = new Translation
                 {
+                    Key = "/Dictionary/Email",
                     Keyword = "Email",
                     Value = "Email",
                     Language = "en",
@@ -41,6 +43,7 @@ namespace EPiTranslator.Tests
                 };
             var daTranslation1 = new Translation
                 {
+                    Key = "/Dictionary/Name",
                     Keyword = "Name",
                     Value = "Navn",
                     Language = "da",

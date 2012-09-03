@@ -55,6 +55,7 @@
     <Compile Include="SubstituteAll.cs" />
     <Compile Include="When_asked_for_all_languages.cs" />
     <Compile Include="When_asked_for_all_translations.cs" />
+    <Compile Include="When_asked_to_update_a_translation.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
