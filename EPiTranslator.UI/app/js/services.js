@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('translator.services', ['ngResource']).
-  factory('storage', function ($resource) {
+  factory('storage', function ($resource, $http) {
     var translations;
     var languages;
 
@@ -43,6 +43,11 @@ angular.module('translator.services', ['ngResource']).
           translations = res;
         }
         return translations;
+      },
+      save: function (translation, success) {
+        $http.put('/api/translations', translation).success(function () {
+          success(translation);
+        });
       },
       allLanguages: function (filter) {
         var res = $resource('/api/languages').query(function (result) {

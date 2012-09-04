@@ -5,7 +5,8 @@
 describe('directives', function() {
   beforeEach(module('translator.directives'));
 
-  describe('app-version', function() {
+  // Test directive is removed. Left here for example purposes.
+  /*describe('app-version', function() {
     it('should print current version', function() {
       module(function($provide) {
         $provide.value('version', 'TEST_VER');
@@ -15,5 +16,5 @@ describe('directives', function() {
         expect(element.text()).toEqual('TEST_VER');
       });
     });
-  });
+  });*/
 });

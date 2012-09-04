@@ -24,7 +24,7 @@ namespace EPiTranslator.Services
                     });
         }
 
-        public void Update(Translation translation)
+        public void Put(Translation translation)
         {
             Get.The.Translator.UpdateTranslation(translation);
         }

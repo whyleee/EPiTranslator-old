@@ -32,8 +32,8 @@ namespace EPiTranslator.Tests
                 };
         };
 
-        Because of = () => translations.Update(newTranslation);
+        Because of = () => translations.Put(newTranslation);
 
-        It should_update_translation = () => factory.Translator.Received().UpdateTranslation(newTranslation);
+        It should_update_translation_in_storage = () => factory.Translator.Received().UpdateTranslation(newTranslation);
     }
 }

@@ -8,13 +8,14 @@ translator.Core = (function () {
     this.init();
   }
 
-  // Initializes application and behaviors before document was loaded.
   Core.prototype.init = function () {
-    $.ajaxSetup({ accepts: 'json' });
   };
 
-  // Initializes application and behaviors when document was loaded.
   Core.prototype.load = function () {
+  };
+
+  Core.prototype.notify = function(header, message) {
+    $.jGrowl(message, {header: header, life: 2000});
   };
 
   return Core;
