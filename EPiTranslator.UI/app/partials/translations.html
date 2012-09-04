@@ -49,9 +49,12 @@
             <td class="keyword">{{entry.Keyword}}</td>
           
             <td class="translation" ng-repeat="translation in entry.Translations | filter:forSelectedLangs" ng-class="{editing: translation == editedTranslation}">
-              <div class="view">{{translation.Value}}</div>
+              <div class="view">
+                <span ng-show="translation.Value">{{translation.Value}}</span>
+                <span ng-show="!translation.Value" class="error">[Missing]</span>
+              </div>
               <form class="modal-form" name="editTranslationForm" ng-submit="doneEditing(translation)">
-                <input type="text" class="edit input-block-level" name="translationValue" ng-model="translation.Value" required
+                <input type="text" class="edit input-block-level" name="translationValue" ng-model="translation.Value" required placeholder="Add translation..."
                        ng-click="edit(translation)" jq-blur="doneEditing(translation)" jq-doblur="translation.updated"
                        tb-tooltip="editTranslationForm.translationValue.$error.required" data-title="Translation value is required" data-trigger="manual" />
               </form>
