@@ -35,12 +35,12 @@ namespace EPiTranslator
         public string Value { get; set; }
 
         /// <summary>
-        /// Gets or sets registered fallback for translation.
+        /// Gets or sets a value indicating whether this translation is actually a fallback.
         /// </summary>
         /// <value>
-        /// Registered fallback for translation.
+        /// <c>true</c> if this translation is fallback; otherwise, <c>false</c>.
         /// </value>
-        public string Fallback { get; set; }
+        public bool IsFallback { get; set; }
 
         /// <summary>
         /// Gets or sets translation language.

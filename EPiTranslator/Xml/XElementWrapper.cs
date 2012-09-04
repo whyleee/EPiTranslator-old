@@ -169,5 +169,15 @@ namespace EPiTranslator.Xml
         {
             Wrapped.AddAfterSelf(element.Wrapped);
         }
+
+        /// <summary>
+        /// Sets the value of an attribute, adds an attribute, or removes an attribute.
+        /// </summary>
+        /// <param name="name">Existing or new attribute name.</param>
+        /// <param name="value">Attribute value or empty to remove.</param>
+        public virtual void SetAttributeValue(string name, object value)
+        {
+            Wrapped.SetAttributeValue(name, value);
+        }
     }
 }

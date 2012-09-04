@@ -252,7 +252,7 @@ namespace EPiTranslator
                             Key = GetFullTranslationKey(node),
                             Keyword = node.Name,
                             Value = node.Value,
-                            Fallback = null,
+                            IsFallback = node.Attribute("fallback") != null,
                             Language = language,
                             Category = GetFullCategoryName(node)
                         })
@@ -429,6 +429,7 @@ namespace EPiTranslator
                 if (currentNode.Name == lastPathElementName)
                 {
                     currentNode.Value = fallback;
+                    currentNode.SetAttributeValue("fallback", updateExisting ? null : "true");
                     fallbackInserted = true;
                     break;
                 }

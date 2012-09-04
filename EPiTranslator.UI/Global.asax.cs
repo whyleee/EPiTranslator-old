@@ -53,6 +53,7 @@ namespace EPiTranslator.UI
                 Key = "/Dictionary/Email",
                 Keyword = "Email",
                 Value = "Email",
+                IsFallback = true,
                 Language = "en",
                 Category = "Dictionary"
             };
@@ -61,6 +62,7 @@ namespace EPiTranslator.UI
                 Key = "/Header/Hello",
                 Keyword = "Hello",
                 Value = "Hello, world!",
+                IsFallback = true,
                 Language = "en",
                 Category = "Header"
             };
@@ -99,9 +101,11 @@ namespace EPiTranslator.UI
                     if (existing != null)
                     {
                         existing.Value = translation.Value;
+                        existing.IsFallback = false;
                     }
                     else
                     {
+                        translation.IsFallback = false;
                         ((IList<Translation>) entries).Add(translation);
                     }
                 }));

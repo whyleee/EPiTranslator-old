@@ -38,6 +38,7 @@ namespace EPiTranslator.Tests
                     Key = "/Dictionary/Email",
                     Keyword = "Email",
                     Value = "Email",
+                    IsFallback = true,
                     Language = "en",
                     Category = "Dictionary"
                 };

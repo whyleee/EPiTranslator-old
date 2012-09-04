@@ -48,6 +48,9 @@
     color: crimson;
     font-weight: bold;
   }
+  #translations .translation .view .fallback {
+    color: olivedrab;
+  }
 
 #categories {
 
@@ -55,6 +58,7 @@
 
   #categories ul {
     margin-top: 34px;
+    padding-left: 15px;
     text-align: right;
   }
 
@@ -87,4 +91,23 @@ div.jGrowl div.jGrowl-notification div.jGrowl-close {
 
 .tooltip .tooltip-inner {
   background-color: crimson;
+}
+
+
+
+/* Responsiveness */
+@media (max-width: 767px) {
+  #controls {
+    margin-left: 0;
+    padding-right: 15px;
+  }
+
+  #categories ul {
+    margin-top: 0;
+    padding-left: 0;
+  }
+
+  .search input {
+    width: 100%;
+  }
 }

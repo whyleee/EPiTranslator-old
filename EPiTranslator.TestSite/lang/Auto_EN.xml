@@ -2,7 +2,7 @@
 <languages>
   <language name="English" id="en">
     <Test>
-      <Translation>Hi, {0}, this is a test translation</Translation>
+      <Translation>Hi, {0}, this is a test translation not a fallback</Translation>
     </Test>
   </language>
 </languages>

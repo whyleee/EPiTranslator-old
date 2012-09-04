@@ -45,6 +45,7 @@ function TranslationsCtrl($scope, $cookieStore, storage, $routeParams) {
       storage.save(translation, function () {
         notifyUpdated(translation);
         translation.updated = true;
+        translation.IsFallback = false;
       });
     } else {
       translation.wasTranslated = false;
