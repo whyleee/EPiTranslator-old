@@ -53,8 +53,8 @@
                 <span ng-show="translation.Value" ng-class="{fallback: translation.IsFallback}" data-title="This is fallback">{{translation.Value}}</span>
                 <span ng-show="!translation.Value" class="error">[Missing]</span>
               </div>
-              <form class="modal-form" name="editTranslationForm" ng-submit="doneEditing(translation)">
-                <input type="text" class="edit input-block-level" name="translationValue" ng-model="translation.Value" required placeholder="Add translation..."
+              <form class="edit modal-form" name="editTranslationForm" ng-submit="doneEditing(translation)">
+                <input type="text" class="input-block-level" name="translationValue" ng-model="translation.Value" required placeholder="Add translation..."
                        ng-click="edit(translation)" jq-blur="doneEditing(translation)" jq-doblur="translation.updated"
                        tb-tooltip="editTranslationForm.translationValue.$error.required" data-title="Translation value is required" data-trigger="manual" />
               </form>

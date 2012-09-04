@@ -20,21 +20,6 @@
   #translations .translation .edit {
     display: none;
   }
-  #translations .translation:hover,
-  #translations .translation.editing {
-    padding: 5px 7px 5px 1px;
-  }
-  #translations .translation:hover .edit,
-  #translations .translation.editing .edit {
-    display: block;
-    margin-bottom: 0;
-    min-height: 26px !important;
-    height: 26px;
-  }
-  #translations .translation:hover .edit::-webkit-input-placeholder,
-  #translations .translation.editing .edit::-webkit-input-placeholder {
-    font-style: italic;
-  }
   #translations .translation:hover .view {
     display: none;
   }
@@ -43,6 +28,24 @@
   }
   #translations .translation.editing .view {
     display: none;
+  }
+  #translations .translation:hover .edit,
+  #translations .translation.editing .edit {
+    display: block;
+  }
+  #translations .translation:hover,
+  #translations .translation.editing {
+    padding: 5px 7px 5px 1px;
+  }
+  #translations .translation .edit input,
+  #translations .translation .edit input {
+    margin-bottom: 0;
+    min-height: 26px !important;
+    height: 26px;
+  }
+  #translations .translation .edit input::-webkit-input-placeholder,
+  #translations .translation .edit input::-webkit-input-placeholder {
+    font-style: italic;
   }
   #translations .translation .view .error {
     color: crimson;
