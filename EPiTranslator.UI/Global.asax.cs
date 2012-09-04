@@ -83,11 +83,28 @@ namespace EPiTranslator.UI
 
             var translationsData = new List<Dictionary>
                 {
-                    new Dictionary {Language = "en", Entries = new[] {enTranslation1, enTranslation2, enTranslation3}},
-                    new Dictionary {Language = "da", Entries = new[] {daTranslation1, daTranslation2}}
+                    new Dictionary {Language = "en", Entries = new List<Translation> {enTranslation1, enTranslation2, enTranslation3}},
+                    new Dictionary {Language = "da", Entries = new List<Translation> {daTranslation1, daTranslation2}}
                 };
 
+            Application["AllTranslations"] = translationsData;
+
             factory.Translator.GetAllTranslations().Returns(translationsData);
+            factory.Translator.UpdateTranslation(Arg.Do<Translation>(translation =>
+                {
+                    var dicts = (List<Dictionary>) Application["AllTranslations"];
+                    var entries = dicts.First(x => x.Language == translation.Language).Entries;
+                    var existing = entries.FirstOrDefault(e => e.Key == translation.Key);
+
+                    if (existing != null)
+                    {
+                        existing.Value = translation.Value;
+                    }
+                    else
+                    {
+                        ((IList<Translation>) entries).Add(translation);
+                    }
+                }));
         }
     }
 }

@@ -99,14 +99,15 @@ describe('Translator', function() {
 
   describe('Category selector', function() {
     it('should show all categories with additional "All" entry', function() {
-      expect(repeater('#categories li').count()).toBe(3);
+      expect(repeater('#categories li').count()).toBe(4);
       expect(element('#categories li:nth(0)').text()).toMatch('All');
-      expect(element('#categories li:nth(1)').text()).toMatch('Dictionary');
-      expect(element('#categories li:nth(2)').text()).toMatch('Header');
+      expect(element('#categories li:nth(1)').text()).toMatch('Not translated');
+      expect(element('#categories li:nth(2)').text()).toMatch('Dictionary');
+      expect(element('#categories li:nth(3)').text()).toMatch('Header');
     });
 
     it('should go to category view when clicked', function() {
-      element('#categories li:nth(1) a').click();
+      element('#categories li:nth(2) a').click();
       
       expect(browser().location().url()).toBe("/translations/Dictionary");
     });

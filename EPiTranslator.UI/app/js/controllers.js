@@ -1,7 +1,10 @@
 'use strict';
 
 function TranslationsCtrl($scope, $cookieStore, storage, $routeParams) {
-  
+
+  $scope.onlyNotTranslated = $routeParams.category == 'not-translated';
+  $scope.selectedCategory = !$scope.onlyNotTranslated ? $routeParams.category : null;
+
   // set languages
   $scope.langs = storage.allLanguages(function (result) {
     var selectedLangs = $cookieStore.get('selectedLangs');
@@ -18,18 +21,17 @@ function TranslationsCtrl($scope, $cookieStore, storage, $routeParams) {
   // set translations grouped by category
   $scope.categories = storage.all(function (result) {
     var all = _.groupBy(result, 'Category');
-    if ($routeParams.category) {
+    if ($routeParams.category && !$scope.onlyNotTranslated) {
       all[$routeParams.category].active = true;
     }
     return all;
   });
-  
-  $scope.selectedCategory = $routeParams.category;
 
   // set translation into the edit mode
   $scope.edit = function (translation) {
     translation.prevVal = translation.Value;
     $scope.editedTranslation = translation;
+    translation.wasTranslated = true;
   };
 
   // update translation in storage
@@ -44,6 +46,8 @@ function TranslationsCtrl($scope, $cookieStore, storage, $routeParams) {
         notifyUpdated(translation);
         translation.updated = true;
       });
+    } else {
+      translation.wasTranslated = false;
     }
   };
 
@@ -79,5 +83,13 @@ function TranslationsCtrl($scope, $cookieStore, storage, $routeParams) {
   };
   $scope.forSelectedLangs = function(translation) {
     return _.any($scope.selectedLangs, function (lang) {return lang == translation.Language;});
+  };
+  $scope.notTranslatedIfSelected = function (entry) {
+    return !$scope.onlyNotTranslated || _.any(_.filter(entry.Translations, $scope.forSelectedLangs),
+        function (translation) {return translation.wasTranslated || !translation.Value; }
+      );
+  };
+  $scope.haveNotTranslatedIfSelected = function(category) {
+    return _.any(category.Entries, $scope.notTranslatedIfSelected);
   };
 }

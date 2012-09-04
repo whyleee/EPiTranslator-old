@@ -21,8 +21,11 @@
   <div class="row">
     <section id="categories" class="span3">
       <ul class="nav nav-pills nav-stacked">
-        <li ng-class="{active: !selectedCategory}">
+        <li ng-class="{active: !selectedCategory && !onlyNotTranslated}">
           <a href="#/translations">All</a>
+        </li>
+        <li ng-class="{active: onlyNotTranslated}">
+          <a href="#/translations/not-translated">Not translated</a>
         </li>
         <li ng-repeat="category in categories" ng-class="{active: category.active}">
           <a href="#/translations/{{category.Name}}">{{category.Name}}</a>
@@ -38,11 +41,11 @@
             {{lang.Name}}
           </th>
         </thead>
-        <tbody class="category" ng-repeat="category in categories | filter:selectedCategory | filter:query">
+        <tbody class="category" ng-repeat="category in categories | filter:selectedCategory | filter:haveNotTranslatedIfSelected | filter:query">
           <tr class="category-header">
-            <th colspan="3">{{category.Name}}</th>
+            <th colspan="{{selectedLangs.length + 1}}">{{category.Name}}</th>
           </tr>
-          <tr ng-repeat="entry in category.Entries | filter:query">
+          <tr ng-repeat="entry in category.Entries | filter:notTranslatedIfSelected | filter:query">
             <td class="keyword">{{entry.Keyword}}</td>
           
             <td class="translation" ng-repeat="translation in entry.Translations | filter:forSelectedLangs" ng-class="{editing: translation == editedTranslation}">
