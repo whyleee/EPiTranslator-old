@@ -57,8 +57,12 @@
                 <input type="text" class="input-block-level" name="translationValue" ng-model="translation.Value" required placeholder="Add translation..."
                        ng-click="edit(translation)" jq-blur="doneEditing(translation)" jq-doblur="translation.updated"
                        tb-tooltip="editTranslationForm.translationValue.$error.required" data-title="Translation value is required" data-trigger="manual" />
+
                 <button type="submit" ng-show="translation == editedTranslation && translation.Value && translation.prevVal != translation.Value"
                         class="save" tabindex="9999"></button>
+                <button type="button" ng-click="undoEditing(translation)"
+                        ng-show="translation == editedTranslation && translation.Value && translation.prevVal != translation.Value"
+                        class="undo" tabindex="9999" jq-enterleave="translation.canceling = true | translation.canceling = false"></button>
               </form>
             </td>
           </tr>

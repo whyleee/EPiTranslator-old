@@ -7,7 +7,7 @@ angular.module('translator.directives', []).
   directive('jqBlur', function () {
     return function (scope, elem, attrs) {
       elem.blur(function () {
-        if (!scope.translation.updated) {
+        if (!scope.translation.updated && !scope.translation.canceling) {
           scope.$apply(attrs.jqBlur);
         }
       });
@@ -26,6 +26,17 @@ angular.module('translator.directives', []).
           _elem.blur();
           _scope.translation.updated = false;
         }
+      });
+    };
+  }).
+  
+  /* Executes an expression when mouse is enters or leaves the element (enter_expr|leave_expr) */
+  directive('jqEnterleave', function () {
+    return function (scope, elem, attrs) {
+      elem.hover(function () {
+        scope.$apply(_.str.words(attrs.jqEnterleave, '|')[0]);
+      }, function () {
+        scope.$apply(_.str.words(attrs.jqEnterleave, '|')[1]);
       });
     };
   }).

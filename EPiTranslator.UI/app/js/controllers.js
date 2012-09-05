@@ -54,6 +54,13 @@ function TranslationsCtrl($scope, $cookieStore, storage, $routeParams) {
       translation.wasTranslated = false;
     }
   };
+  
+  // undo edited translation
+  $scope.undoEditing = function(translation) {
+    translation.Value = '';
+    translation.canceling = false;
+    $scope.doneEditing(translation);
+  };
 
   // watchers
   $scope.$watch('langs', function () {

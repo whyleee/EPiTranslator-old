@@ -1,5 +1,7 @@
 ﻿/* Translator styles */
 
+
+/* Translations table */
 #translations {
   
   }
@@ -53,12 +55,12 @@
     color: olivedrab;
   }
 
-  /* Accept fallback button */
-  #translations .translation .edit .save {
+  /* Save, undo buttons */
+  #translations .translation .edit button {
 	  display: block;
 	  position: absolute;
 	  top: 0;
-	  right: 5px;
+	  right: 2px;
 	  bottom: 0;
 	  width: 20px;
 	  height: 20px;
@@ -67,25 +69,43 @@
 	  border: 0;
 	  background: none;
 	  font-size: 16px;
-	  color: olivedrab;
 	  -webkit-transition: all 0.1s;
 	  -moz-transition: all 0.1s;
 	  -ms-transition: all 0.1s;
 	  -o-transition: all 0.1s;
 	  transition: all 0.1s;
   }
+  #translations .translation .edit button:hover {
+	  -webkit-transform: scale(1.2);
+	  -moz-transform: scale(1.2);
+	  -ms-transform: scale(1.2);
+	  -o-transform: scale(1.2);
+	  transform: scale(1.2);
+  }
+
+  #translations .translation .edit .save {
+    color: olivedrab;
+    right: 18px;
+  }
   #translations .translation .edit .save:hover {
-	  text-shadow: 0 0 1px #000, 0 0 10px rgba(107,142,35,0.8);
-	  -webkit-transform: scale(1.4);
-	  -moz-transform: scale(1.4);
-	  -ms-transform: scale(1.4);
-	  -o-transform: scale(1.4);
-	  transform: scale(1.4);
+    text-shadow: 0 0 1px #000, 0 0 10px rgba(107,142,35,0.8);
   }
   #translations .translation .edit .save:after {
 	  content: '✔';
   }
 
+  #translations .translation .edit .undo {
+    color: firebrick;
+  }
+  #translations .translation .edit .undo:hover {
+    text-shadow: 0 0 1px #000, 0 0 10px rgba(220,20,60,0.8);
+  }
+  #translations .translation .edit .undo:after {
+    content: '✖';
+  }
+
+
+/* Categories selector */
 #categories {
 
   }
