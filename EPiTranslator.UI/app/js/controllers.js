@@ -29,9 +29,11 @@ function TranslationsCtrl($scope, $cookieStore, storage, $routeParams) {
 
   // set translation into the edit mode
   $scope.edit = function (translation) {
-    translation.prevVal = translation.Value;
-    $scope.editedTranslation = translation;
-    translation.wasTranslated = true;
+    if ($scope.editedTranslation != translation) {
+      translation.prevVal = translation.Value;
+      $scope.editedTranslation = translation;
+      translation.wasTranslated = true;
+    }
   };
 
   // update translation in storage
@@ -42,6 +44,7 @@ function TranslationsCtrl($scope, $cookieStore, storage, $routeParams) {
     if (translation.Value != translation.prevVal) {
       translation.prevVal = translation.Value;
       $scope.editedTranslation = null;
+      
       storage.save(translation, function () {
         notifyUpdated(translation);
         translation.updated = true;
