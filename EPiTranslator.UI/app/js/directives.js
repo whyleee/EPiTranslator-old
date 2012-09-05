@@ -40,6 +40,17 @@ angular.module('translator.directives', []).
       });
     };
   }).
+  
+  /* Executes an expression when ESC key was pressed */
+  directive('jqEsc', function () {
+    return function (scope, elem, attrs) {
+      elem.keyup(function (e) {
+        if (e.keyCode == 27) { // ESC
+          scope.$apply(attrs.jqEsc);
+        }
+      });
+    };
+  }).
 
   /* Shows tooltip when specified expression is true */
   directive('tbTooltip', function () {
