@@ -1,4 +1,5 @@
 ﻿if (!translator) var translator = {};
+if (!$) var $ = function (onload) { onload(); };
 
 // Contains styling and initialization logic
 translator.Core = (function () {

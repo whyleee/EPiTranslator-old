@@ -1,6 +1,8 @@
 'use strict';
 
 angular.module('translator.services', ['ngResource']).
+  value('core', translator.core).
+
   factory('storage', function ($resource, $http) {
     var translations;
     var languages;
@@ -12,7 +14,7 @@ angular.module('translator.services', ['ngResource']).
       }
 
       var filtered = filter(result);
-      
+
       if (!filtered) {
         return;
       }
@@ -35,8 +37,8 @@ angular.module('translator.services', ['ngResource']).
     };
 
     return {
-      all: function (filter) {
-        var res = $resource('/api/translations').query(function (result) {
+      all: function(filter) {
+        var res = $resource('/api/translations').query(function(result) {
           filterResult(translations, result, filter);
         });
         if (!translations) {
@@ -44,13 +46,13 @@ angular.module('translator.services', ['ngResource']).
         }
         return translations;
       },
-      save: function (translation, success) {
-        $http.put('/api/translations', translation).success(function () {
+      save: function(translation, success) {
+        $http.put('/api/translations', translation).success(function() {
           success(translation);
         });
       },
-      allLanguages: function (filter) {
-        var res = $resource('/api/languages').query(function (result) {
+      allLanguages: function(filter) {
+        var res = $resource('/api/languages').query(function(result) {
           filterResult(languages, result, filter);
         });
         if (!languages) {

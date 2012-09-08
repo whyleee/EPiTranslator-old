@@ -1,6 +1,6 @@
 'use strict';
 
-function TranslationsCtrl($scope, $cookieStore, storage, $routeParams) {
+function TranslationsCtrl($scope, $cookieStore, storage, $routeParams, core) {
 
   $scope.onlyNotTranslated = $routeParams.category == 'not-translated';
   $scope.selectedCategory = !$scope.onlyNotTranslated ? $routeParams.category : null;
@@ -31,8 +31,9 @@ function TranslationsCtrl($scope, $cookieStore, storage, $routeParams) {
   $scope.edit = function (translation) {
     if ($scope.editedTranslation != translation) {
       translation.prevVal = translation.Value;
-      $scope.editedTranslation = translation;
       translation.wasTranslated = true;
+      
+      $scope.editedTranslation = translation;
     }
   };
 
@@ -85,7 +86,7 @@ function TranslationsCtrl($scope, $cookieStore, storage, $routeParams) {
     var message = _.str.sprintf("<b>%s</b>: '%s' to <b>'%s'</b>",
       language.Name, translation.Keyword, translation.Value);
 
-    translator.core.notify('Translation updated', message);
+    core.notify('Translation updated', message);
   };
   
   // filters
