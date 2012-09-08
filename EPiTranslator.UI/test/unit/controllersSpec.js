@@ -216,7 +216,6 @@ describe('TranslationsCtrl:', function () {
     });
   });
 
-
   describe('when called with selected languages in cookie', function () {
 
     beforeEach(function() {
@@ -245,7 +244,6 @@ describe('TranslationsCtrl:', function () {
     });
   });
 
-
   describe('when langs were changed', function () {
 
     beforeEach(function() {
@@ -272,7 +270,6 @@ describe('TranslationsCtrl:', function () {
       expect($cookieStore.put).toHaveBeenCalledWith('selectedLangs', ['en']);
     });
   });
-
 
   describe('when called for category', function() {
 
@@ -326,6 +323,38 @@ describe('TranslationsCtrl:', function () {
       $httpBackend.flush();
       
       expect(scope.categories[0].active).toBeTruthy();
+    });
+  });
+
+  describe('when called for "not-translated" category', function() {
+
+    beforeEach(function () {
+      // setups
+      $httpBackend.expectGET('/api/languages').
+        respond([
+          { Id: 'en', Name: 'English' }
+        ]);
+      $httpBackend.expectGET('/api/translations').
+        respond([
+          { Keyword: 'Name', Category: 'Dictionary', Translations: [] },
+          { Keyword: 'Hello', Category: 'Header', Translations: [] }
+        ]);
+
+      $routeParams.category = 'not-translated';
+
+      // act
+      call();
+    });
+
+    it('should not set selected category model', function() {
+      expect(scope.selectedCategory).toBeNull();
+    });
+
+    it('should not set any category active in translations', function () {
+      $httpBackend.flush();
+      
+      expect(scope.categories[0].active).toBeFalsy();
+      expect(scope.categories[1].active).toBeFalsy();
     });
   });
 
@@ -469,6 +498,37 @@ describe('TranslationsCtrl:', function () {
       $httpBackend.flush();
 
       expect(editedTranslation.IsFallback).toBeFalsy();
+    });
+  });
+
+  describe('when translation editing was cancelled', function () {
+
+    var editedTranslation;
+
+    beforeEach(function () {
+      // setups
+      mockHttp();
+
+      editedTranslation = { Keyword: 'Hello', Value: 'Hello, world!' };
+
+      // act
+      call();
+      scope.edit(editedTranslation);
+
+      editedTranslation.Value = 'Hi, guys!';
+      scope.undoEditing(editedTranslation);
+    });
+
+    it('should set translation value to previous saved earlier', function() {
+      expect(editedTranslation.Value).toBe('Hello, world!');
+    });
+
+    it('should set canceling translation status to false', function() {
+      expect(editedTranslation.canceling).toBeFalsy();
+    });
+
+    it('should set translation status was translated to false', function() {
+      expect(editedTranslation.wasTranslated).toBeFalsy();
     });
   });
 });

@@ -11,7 +11,9 @@ function TranslationsCtrl($scope, $cookieStore, storage, $routeParams, core) {
     
     if (selectedLangs && selectedLangs.length > 0) {
       _.each(result, function (lang) {
-        lang.selected = _.any(selectedLangs, function (langId) {return langId == lang.Id;});
+        lang.selected = _.any(selectedLangs,
+          function (langId) { return langId == lang.Id; }
+        );
       });
     } else {
       _.each(result, function(lang) { lang.selected = true; });
@@ -48,6 +50,7 @@ function TranslationsCtrl($scope, $cookieStore, storage, $routeParams, core) {
       
       storage.save(translation, function () {
         notifyUpdated(translation);
+        
         translation.updated = true;
         translation.IsFallback = false;
       });
@@ -58,9 +61,9 @@ function TranslationsCtrl($scope, $cookieStore, storage, $routeParams, core) {
   
   // undo edited translation
   $scope.undoEditing = function(translation) {
-    translation.Value = '';
+    translation.Value = translation.prevVal;
     translation.canceling = false;
-    $scope.doneEditing(translation);
+    translation.wasTranslated = false;
   };
 
   // watchers
