@@ -25428,8 +25428,15 @@ angular.scenario.dsl('input', function() {
   var supportInputEvent = 'oninput' in document.createElement('div');
 
   chain.enter = function(value, event) {
-    return this.addFutureAction("input '" + this.name + "' enter '" + value + "'", function($window, $document, done) {
-      var input = $document.elements('[ng\\:model="$1"]', this.name).filter(':input');
+    return this.addFutureAction("input '" + this.name + "' enter '" + value + "'", function ($window, $document, done) {
+      var input;
+      if (!this.index) {
+        input = $document.elements('[ng\\:model="$1"]', this.name).filter(':input');
+      }
+      else {
+        input = $document.elements('[ng\\:model="$1"]:nth(' + this.index + ')', this.name).filter(':input');
+      }
+      
       input.val(value);
       input.trigger(event || supportInputEvent && 'input' || 'change');
       done();
@@ -25460,8 +25467,9 @@ angular.scenario.dsl('input', function() {
     });
   };
 
-  return function(name) {
+  return function(name, index) {
     this.name = name;
+    this.index = index;
     return chain;
   };
 });

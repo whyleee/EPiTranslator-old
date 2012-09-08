@@ -2,9 +2,19 @@
 
 /* http://docs.angularjs.org/guide/dev_guide.e2e-testing */
 
-describe('Translator', function() {
+describe('Translator', function () {
 
-  beforeEach(function() {
+  var updateTranslation = function(inputIndex, value, skipSave) {
+    element('#translations .category:first .translation:nth(' + inputIndex + ') .edit input').click();
+    input('translation.Value', inputIndex).enter(value);
+    
+    if (!skipSave) {
+      element('#translations .category:first .translation:nth(' + inputIndex + ') .save').click();
+    }
+  };
+
+  beforeEach(function () {
+    $.cookie('e2e', 'true', { expires: 7, path: '/' });
     browser().navigateTo('/app/index.html');
   });
 
@@ -14,7 +24,8 @@ describe('Translator', function() {
   });
 
 
-  describe('Translations table', function() {
+  describe('Translations table', function () {
+    
     it('should have column for each received language', function () {
       expect(repeater('#translations .language-col').count()).toBe(2);
     });
@@ -43,36 +54,19 @@ describe('Translator', function() {
       expect(element('#translations .category:first .category-header').text()).toMatch('Dictionary');
     });
 
-    it('should filter categories while typing part of the category name into the search box', function() {
-      expect(repeater('#translations .category').count()).toBe(2);
+    it('should show only not translated entries when in "Not translated" view', function() {
+      browser().navigateTo('/app/index.html#/translations/not-translated');
 
-      input('query').enter('dict');
-      expect(repeater('#translations .category').count()).toBe(1);
-      expect(element('#translations .category:first .category-header').text()).toMatch('Dictionary');
-    });
-
-    it('should filter entries while typing part of the keyword into the search box', function() {
-      expect(repeater('#translations .keyword').count()).toBe(3);
-
-      input('query').enter('em');
       expect(repeater('#translations .keyword').count()).toBe(1);
-      expect(element('#translations .keyword:first').text()).toMatch('Email');
-    });
-    
-    it('should filter entries while typing part of the translation into the search box', function () {
-      expect(repeater('#translations .keyword').count()).toBe(3);
-
-      input('query').enter('avn');
-      expect(repeater('#translations .keyword').count()).toBe(1);
-      expect(element('#translations .keyword:first').text()).toMatch('Name');
+      expect(element('#translations .category:first .translation:nth(1) .edit input').val()).toBe('');
     });
 
-    it('should filter categories while typing part of the keyword into the search box', function() {
-      expect(repeater('#translations .category').count()).toBe(2);
+    it('should show [Missing] text for not translated words/phrases', function() {
+      expect(element('#translations .category:first .translation:nth(3)').text()).toMatch('[Missing]');
+    });
 
-      input('query').enter('hello');
-      expect(repeater('#translations .category').count()).toBe(1);
-      expect(element('#translations .category:first .category-header').text()).toMatch('Header');
+    it('should colorize fallback translations', function() {
+      expect(element('#translations .category:first .translation:nth(2) .view span').css('color')).not().toBe('rgb(51, 51, 51)');
     });
   });
 
@@ -97,8 +91,9 @@ describe('Translator', function() {
   });
 
 
-  describe('Category selector', function() {
-    it('should show all categories with additional "All" entry', function() {
+  describe('Category selector', function () {
+    
+    it('should show all categories with additional "All" and "Not translated" entries', function() {
       expect(repeater('#categories li').count()).toBe(4);
       expect(element('#categories li:nth(0)').text()).toMatch('All');
       expect(element('#categories li:nth(1)').text()).toMatch('Not translated');
@@ -106,10 +101,134 @@ describe('Translator', function() {
       expect(element('#categories li:nth(3)').text()).toMatch('Header');
     });
 
+    it('should go to default view when "All" item was clicked', function() {
+      element('#categories li:nth(0) a').click();
+
+      expect(browser().location().url()).toBe("/translations/");
+    });
+    
+    it('should go to "not-translated" view when "Not translated" item was clicked', function () {
+      element('#categories li:nth(1) a').click();
+
+      expect(browser().location().url()).toBe("/translations/not-translated");
+    });
+
     it('should go to category view when clicked', function() {
       element('#categories li:nth(2) a').click();
       
       expect(browser().location().url()).toBe("/translations/Dictionary");
+    });
+  });
+  
+
+  describe('Search', function () {
+
+    it('should filter categories while typing part of the category name into the search box', function () {
+      expect(repeater('#translations .category').count()).toBe(2);
+
+      input('query').enter('dict');
+      expect(repeater('#translations .category').count()).toBe(1);
+      expect(element('#translations .category:first .category-header').text()).toMatch('Dictionary');
+    });
+
+    it('should filter entries while typing part of the keyword into the search box', function () {
+      expect(repeater('#translations .keyword').count()).toBe(3);
+
+      input('query').enter('em');
+      expect(repeater('#translations .keyword').count()).toBe(1);
+      expect(element('#translations .keyword:first').text()).toMatch('Email');
+    });
+
+    it('should filter entries while typing part of the translation into the search box', function () {
+      expect(repeater('#translations .keyword').count()).toBe(3);
+
+      input('query').enter('avn');
+      expect(repeater('#translations .keyword').count()).toBe(1);
+      expect(element('#translations .keyword:first').text()).toMatch('Name');
+    });
+
+    it('should filter categories while typing part of the keyword into the search box', function () {
+      expect(repeater('#translations .category').count()).toBe(2);
+
+      input('query').enter('hello');
+      expect(repeater('#translations .category').count()).toBe(1);
+      expect(element('#translations .category:first .category-header').text()).toMatch('Header');
+    });
+  });
+
+
+  describe('Translation update', function() {
+
+    describe('When translation was updated with another value', function () {
+
+      beforeEach(function () {
+        updateTranslation(1, 'new value');
+      });
+
+      it('should update translation view with new value', function () {
+        expect(element('#translations .category:first .translation:nth(1) .view').text()).toMatch('new value');
+      });
+
+      it('should show notification that translation was updated', function () {
+        sleep(0.3);
+        expect(element('#jGrowl .jGrowl-notification .jGrowl-message').text()).toMatch("Danish: 'Name' to 'new value'");
+      });
+    });
+
+    describe('When translation was updated with the same value', function () {
+
+      beforeEach(function () {
+        updateTranslation(1, 'Navn');
+      });
+
+      it('should be the same value in view', function () {
+        expect(element('#translations .category:first .translation:nth(1) .view').text()).toMatch('Navn');
+      });
+
+      it('should not show any notifications', function () {
+        sleep(0.3);
+        expect(element('#jGrowl .jGrowl-notification').count()).toBe(0);
+      });
+    });
+
+    describe('When translation was updated with empty value', function () {
+
+      beforeEach(function () {
+        updateTranslation(1, '');
+      });
+
+      it('should show validation tooltip', function () {
+        expect(element('.tooltip:visible').text()).toMatch('Translation value is required');
+      });
+    });
+
+    describe('When translation was updated with another value but cancelled', function () {
+
+      beforeEach(function () {
+        updateTranslation(1, 'new value', /* skip save */ true);
+        element('#translations .category:first .translation:nth(1) .undo').click();
+      });
+
+      it('should return to previous value in translation view', function () {
+        expect(element('#translations .category:first .translation:nth(1) .view').text()).toMatch('Navn');
+      });
+
+      it('should not show any notifications', function () {
+        sleep(0.3);
+        expect(element('#jGrowl .jGrowl-notification').count()).toBe(0);
+      });
+    });
+
+    describe('When new translation was set to not translated entry in "Not translated" view', function () {
+
+      beforeEach(function () {
+        browser().navigateTo('/app/index.html#/translations/not-translated');
+        updateTranslation(1, 'new value');
+      });
+
+      it('should remain visible with new value', function () {
+        expect(element('#translations .category:first .translation:nth(1) .view:visible').text()).toMatch('new value');
+      });
     });
   });
 });

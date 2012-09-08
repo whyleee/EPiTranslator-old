@@ -50,7 +50,7 @@
           
             <td class="translation" ng-repeat="translation in entry.Translations | filter:forSelectedLangs" ng-class="{editing: translation == editedTranslation}">
               <div class="view">
-                <span ng-show="translation.Value" ng-class="{fallback: translation.IsFallback}" data-title="This is fallback">{{translation.Value}}</span>
+                <span ng-show="translation.Value" ng-class="{fallback: translation.IsFallback}">{{translation.Value}}</span>
                 <span ng-show="!translation.Value" class="error">[Missing]</span>
               </div>
               <form class="edit modal-form" name="editTranslationForm" ng-submit="doneEditing(translation)">

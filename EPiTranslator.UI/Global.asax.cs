@@ -94,6 +94,13 @@ namespace EPiTranslator.UI
             factory.Translator.GetAllTranslations().Returns(translationsData);
             factory.Translator.UpdateTranslation(Arg.Do<Translation>(translation =>
                 {
+                    // Do not update shared state for integration tests.
+                    if (HttpContext.Current.Request.Cookies["e2e"] != null)
+                    {
+                        HttpContext.Current.Response.Cookies["e2e"].Expires = DateTime.Now.AddDays(-1);
+                        return;
+                    }
+
                     var dicts = (List<Dictionary>) Application["AllTranslations"];
                     var entries = dicts.First(x => x.Language == translation.Language).Entries;
                     var existing = entries.FirstOrDefault(e => e.Key == translation.Key);
