@@ -5,10 +5,54 @@ using System.Linq;
 using System.Reflection;
 using System.Runtime.Serialization;
 using System.Text;
+using Machine.Specifications;
 using NSubstitute;
 
 namespace EPiTranslator.Tests
 {
+    public class with_factory_mocker
+    {
+        protected static Get factory;
+
+        Establish context = () =>
+        {
+            factory = SubstituteAll.For<Get>();
+            Get.The = factory;
+        };
+
+        protected static IList<T> CollectionWith<T>()
+        {
+            return new List<T>();
+        }
+    }
+
+    public static class LanguageSetups
+    {
+        public static void ReturnsSomeLanguages(this IEnumerable<Language> method)
+        {
+            method.ReturnsEnglishAndDanishLanguages();
+        }
+
+        public static void ReturnsEnglishAndDanishLanguages(this IEnumerable<Language> method)
+        {
+            var enLanguage = new Language { Id = "en", Name = "English" };
+            var daLanguage = new Language { Id = "da", Name = "Danish" };
+
+            method.Returns(new[] { enLanguage, daLanguage });
+        }
+    }
+
+    public static class TranslationSetups
+    {
+        public static void ReturnsNothing(this IEnumerable<Dictionary> method)
+        {
+            method.Returns(new Dictionary[] { });
+        }
+    }
+
+    /// <summary>
+    /// Creates recursive mocks for 3-long object call chain.
+    /// </summary>
     public static class SubstituteAll
     {
         private static int recursiveCounter = 0;
