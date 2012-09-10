@@ -79,6 +79,21 @@ function TranslationsCtrl($scope, $cookieStore, storage, $routeParams, core) {
       return _.pluck($scope.langs.filter(function (lang) {return lang.selected;}), 'Id');
     }
   });
+
+  $scope.computeTranslationIndex = function (scope) {
+    var categoryIndex = scope.$parent.$parent.$index;
+    var totalTranslationsInPrevCategories = 0;
+
+    for (var i = 0; i < categoryIndex; i++) {
+      var entries = scope.categories[i].Entries;
+      
+      for (var j = 0; j < entries.length; j++) {
+        totalTranslationsInPrevCategories += scope.selectedLangs.length;
+      }
+    }
+
+    return scope.$index + scope.$parent.$index * scope.selectedLangs.length + categoryIndex * totalTranslationsInPrevCategories;
+  };
   
   // show notify message that translation was updated
   var notifyUpdated = function (translation) {

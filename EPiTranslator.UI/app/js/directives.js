@@ -52,6 +52,80 @@ angular.module('translator.directives', []).
     };
   }).
 
+  directive('ttNextprevrow', function () {
+    return function (scope, elem, attrs) {
+      elem.keyup(function (e) {
+        if (e.keyCode == 38 || e.keyCode == 40) { // up or down arrow
+          var down = e.keyCode == 40;
+          var translationsSection = elem.parentsUntil('#translations').parent().eq(0);
+          var row = elem.parentsUntil('tr').parent().eq(0);
+          var colIndex = elem.parentsUntil('td').parent().index();
+          var foundCurrent = false;
+          var nextRow, prevRow;
+
+          translationsSection.find('tr:not(.category-header)').each(function () {
+            if (foundCurrent) {
+              nextRow = $(this);
+              return false;
+            }
+            if ($(this).is(row)) {
+              foundCurrent = true;
+            } else {
+              prevRow = $(this);
+            }
+          });
+          
+          var nextPrevElem = down ? nextRow : prevRow;
+          
+          if (nextPrevElem) {
+            var nextEntry = nextPrevElem.find('.translation:nth(' + (colIndex - 1) + ') .edit input');
+            nextEntry.click();
+            nextEntry.focus();
+          }
+        }
+      });
+    };
+  }).
+  
+  directive('ttNextprevcol', function () {
+    return function (scope, elem, attrs) {
+      elem.keyup(function (e) {
+        if ((e.keyCode == 37 || e.keyCode == 39) && e.ctrlKey) { // left or right arrow
+          var next = e.keyCode == 39;
+          var curIndex = elem.data('index');
+          var prevNextIndex = next ? curIndex + 1 : curIndex - 1;
+          
+          if (prevNextIndex >= 0) {
+            var prevNextElem = $('#translations .translation .edit input:nth(' + prevNextIndex + ')');
+            prevNextElem.click();
+            prevNextElem.focus();
+          }
+        }
+      });
+    };
+  }).
+  
+  directive('ttTabbable', function () {
+    return function (scope, elem, attrs) {
+      elem.keydown(function (e) {
+        if (e.keyCode == 9) { // TAB
+          var next = !e.shiftKey;
+          var curIndex = elem.data('index');
+          var prevNextIndex = next ? curIndex + 1 : curIndex - 1;
+          var translationsLength = $('#translations .translation .edit input').length;
+
+          if (prevNextIndex >= 0 && prevNextIndex < translationsLength) {
+            var prevNextElem = $('#translations .translation .edit input:nth(' + prevNextIndex + ')');
+            prevNextElem.click();
+            prevNextElem.focus();
+            
+            e.preventDefault();
+          }
+        }
+      });
+    };
+  }).
+
   /* Shows tooltip when specified expression is true */
   directive('tbTooltip', function () {
     return function (scope, elem, attrs) {
