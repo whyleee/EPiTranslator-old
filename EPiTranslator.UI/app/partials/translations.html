@@ -27,7 +27,7 @@
         <li ng-class="{active: onlyNotTranslated}">
           <a href="#/translations/not-translated">Not translated</a>
         </li>
-        <li ng-repeat="category in categories" ng-class="{active: category.active}">
+        <li ng-repeat="category in categories" ng-class="{active: category.active}" tt-tablasttotable>
           <a href="#/translations/{{category.Name}}">{{category.Name}}</a>
         </li>
       </ul>

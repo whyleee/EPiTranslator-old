@@ -52,6 +52,7 @@ angular.module('translator.directives', []).
     };
   }).
 
+  // TODO: can this be changed to just adding selectedLangs.length to current item index?
   directive('ttNextprevrow', function () {
     return function (scope, elem, attrs) {
       elem.keyup(function (e) {
@@ -121,6 +122,26 @@ angular.module('translator.directives', []).
             
             e.preventDefault();
           }
+          else if (prevNextIndex == translationsLength) {
+            elem.blur();
+            $('.language-selector input:first').focus();
+            
+            e.preventDefault();
+          }
+        }
+      });
+    };
+  }).
+  
+  directive('ttTablasttotable', function () {
+    return function (scope, elem, attrs) {
+      elem.keydown(function (e) {
+        if (e.keyCode == 9 && elem.is(':last-child')) { // TAB
+          var firstTranslation = $('#translations .translation .edit input:first');
+          firstTranslation.click();
+          firstTranslation.focus();
+
+          e.preventDefault();
         }
       });
     };
