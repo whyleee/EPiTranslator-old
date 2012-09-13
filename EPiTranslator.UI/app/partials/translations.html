@@ -22,13 +22,13 @@
     <section id="categories" class="span3">
       <ul class="nav nav-pills nav-stacked">
         <li ng-class="{active: !selectedCategory && !onlyNotTranslated}">
-          <a href="#/translations">All</a>
+          <a href="#/">All</a>
         </li>
         <li ng-class="{active: onlyNotTranslated}">
-          <a href="#/translations/not-translated">Not translated</a>
+          <a href="#/not-translated">Not translated</a>
         </li>
         <li ng-repeat="category in categories" ng-class="{active: category.active}" tt-tablasttotable>
-          <a href="#/translations/{{category.Name}}">{{category.Name}}</a>
+          <a href="#/{{category.Name}}">{{category.Name}}</a>
         </li>
       </ul>
     </section>

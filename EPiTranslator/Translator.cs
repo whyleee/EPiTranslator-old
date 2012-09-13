@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Threading;
 using System.Xml.Linq;
 using EPiServer.Configuration;
 using EPiServer.Core;
+using EPiServer.DataAbstraction;
 using EPiTranslator.Xml;
 
 namespace EPiTranslator
@@ -28,24 +30,26 @@ namespace EPiTranslator
         {
             get
             {
-                // If site languages were determined earlier, return them.
-                if (_siteLanguages != null)
-                {
-                    return _siteLanguages;
-                }
+                return LanguageBranch.ListEnabled().Select(x => x.LanguageID);
 
-                // Get languages for all sites and return them.
-                var allLanguages = new List<string>();
+                ////// If site languages were determined earlier, return them.
+                ////if (_siteLanguages != null)
+                ////{
+                ////    return _siteLanguages;
+                ////}
 
-                foreach (var settings in Settings.All)
-                {
-                    var currentSiteLanguages = Get.The.EPiServer.GetPage(new PageReference(settings.Value.PageStartId)).PageLanguages;
-                    allLanguages.AddRange(currentSiteLanguages.Except(allLanguages));
-                }
+                ////// Get languages for all sites and return them.
+                ////var allLanguages = new List<string>();
 
-                _siteLanguages = allLanguages;
+                ////foreach (var settings in Settings.All)
+                ////{
+                ////    var currentSiteLanguages = Get.The.EPiServer.GetPage(new PageReference(settings.Value.PageStartId)).PageLanguages;
+                ////    allLanguages.AddRange(currentSiteLanguages.Except(allLanguages));
+                ////}
 
-                return allLanguages;
+                ////_siteLanguages = allLanguages;
+
+                ////return allLanguages;
             }
         }
 
@@ -246,15 +250,15 @@ namespace EPiTranslator
                 var root = doc.Root.Child("language");
 
                 var translationsForLanguage = root.Descendants()
-                    .Where(node => node.HasElements)
+                    .Where(node => !node.HasElements)
                     .Select(node => new Translation
                         {
                             Key = GetFullTranslationKey(node),
                             Keyword = node.Name,
-                            Value = node.Value,
+                            Value = node.Value != null && !node.Value.StartsWith("[Missing") ? node.Value : null,
                             IsFallback = node.Attribute("fallback") != null,
                             Language = language,
-                            Category = GetFullCategoryName(node)
+                            Category = GetCategoryName(node).ToSentenceCase()
                         })
                     .ToList();
 
@@ -297,7 +301,7 @@ namespace EPiTranslator
             var parentChain = new List<string>();
             var current = node;
 
-            while (current != null)
+            while (current != null && current.Name != "language" && current.Attribute("id") == null)
             {
                 parentChain.Add(current.Name);
                 current = current.Parent;
@@ -316,12 +320,22 @@ namespace EPiTranslator
             var fullKey = GetFullTranslationKey(node);
             var namePart = fullKey.LastIndexOf("/");
 
-            if (namePart == -1)
+            if (namePart <= 0)
             {
                 return null;
             }
 
-            return fullKey.Substring(1).Remove(namePart).Replace("/", " - ");
+            return fullKey.Remove(namePart).Substring(1).Replace("/", " - ");
+        }
+
+        /// <summary>
+        /// Gets the name of the category for translation.
+        /// </summary>
+        /// <param name="node">The node representing a translation.</param>
+        /// <returns>The name of the category for translation.</returns>
+        private string GetCategoryName(XElementWrapper node)
+        {
+            return node.Parent != null ? node.Parent.Name : "";
         }
 
         /// <summary>
@@ -498,6 +512,14 @@ namespace EPiTranslator
                         new XAttribute("name", new CultureInfo(locale).EnglishName),
                         new XAttribute("id", locale.ToLower())))
                 ).Save(physicalPath);
+        }
+    }
+
+    public static class StringExtensions
+    {
+        public static string ToSentenceCase(this string str)
+        {
+            return Regex.Replace(str, "[a-z][A-Z]", m => m.Value[0] + " " + char.ToLower(m.Value[1]));
         }
     }
 }

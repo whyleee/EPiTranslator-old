@@ -19,8 +19,8 @@ describe('Translator', function () {
   });
 
 
-  it('should automatically redirect to /translations when location hash/fragment is empty', function() {
-    expect(browser().location().url()).toBe("/translations/");
+  it('should automatically redirect to / when location hash/fragment is empty', function() {
+    expect(browser().location().url()).toBe("/");
   });
 
 
@@ -48,14 +48,14 @@ describe('Translator', function () {
     });
 
     it('should filter categories by selected', function() {
-      browser().navigateTo('/app/index.html#/translations/Dictionary');
+      browser().navigateTo('/app/index.html#/Dictionary');
       
       expect(repeater('#translations .category').count()).toBe(1);
       expect(element('#translations .category:first .category-header').text()).toMatch('Dictionary');
     });
 
     it('should show only not translated entries when in "Not translated" view', function() {
-      browser().navigateTo('/app/index.html#/translations/not-translated');
+      browser().navigateTo('/app/index.html#/not-translated');
 
       expect(repeater('#translations .keyword').count()).toBe(1);
       expect(element('#translations .category:first .translation:nth(1) .edit input').val()).toBe('');
@@ -104,19 +104,19 @@ describe('Translator', function () {
     it('should go to default view when "All" item was clicked', function() {
       element('#categories li:nth(0) a').click();
 
-      expect(browser().location().url()).toBe("/translations/");
+      expect(browser().location().url()).toBe("/");
     });
     
     it('should go to "not-translated" view when "Not translated" item was clicked', function () {
       element('#categories li:nth(1) a').click();
 
-      expect(browser().location().url()).toBe("/translations/not-translated");
+      expect(browser().location().url()).toBe("/not-translated");
     });
 
     it('should go to category view when clicked', function() {
       element('#categories li:nth(2) a').click();
       
-      expect(browser().location().url()).toBe("/translations/Dictionary");
+      expect(browser().location().url()).toBe("/Dictionary");
     });
   });
   
@@ -222,7 +222,7 @@ describe('Translator', function () {
     describe('When new translation was set to not translated entry in "Not translated" view', function () {
 
       beforeEach(function () {
-        browser().navigateTo('/app/index.html#/translations/not-translated');
+        browser().navigateTo('/app/index.html#/not-translated');
         updateTranslation(1, 'new value');
       });
 

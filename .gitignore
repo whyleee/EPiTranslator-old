@@ -44,3 +44,7 @@ License.config
 EPiTranslator.UI/Scripts/
 EPiTranslator.UI/Content/
 EPiTranslator.UI/app/css/images/
+
+# other
+EPiTranslator.TestSite/translator/
+EPiTranslator.TestSite/lang/
