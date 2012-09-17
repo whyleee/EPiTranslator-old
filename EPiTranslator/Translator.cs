@@ -215,16 +215,18 @@ namespace EPiTranslator
 
             foreach (var language in SiteLanguages)
             {
-                var doc = GetTranslationsStorage(language);
+                //var doc = GetTranslationsStorage(language);
 
-                if (doc == null)
-                {
-                    continue;
-                }
+                //if (doc == null)
+                //{
+                //    continue;
+                //}
 
-                var languageName = doc.Root.Child("language").Attribute("name").Value;
+                //var languageName = doc.Root.Child("language").Attribute("name").Value;
 
-                languages.Add(new Language {Id = language, Name = languageName});
+                var languageNode = LanguageManager.Instance.GetLanguage(language);
+
+                languages.Add(new Language {Id = language, Name = languageNode.Value});
             }
 
             return languages;
@@ -240,35 +242,83 @@ namespace EPiTranslator
 
             foreach (var language in SiteLanguages)
             {
-                var doc = GetTranslationsStorage(language);
+                //var doc = GetTranslationsStorage(language);
 
-                if (doc == null)
+                //if (doc == null)
+                //{
+                //    continue;
+                //}
+
+                //var root = doc.Root.Child("language");
+
+                //var translationsForLanguage = root.Descendants()
+                //    .Where(node => !node.HasElements)
+                //    .Select(node => new Translation
+                //        {
+                //            Key = GetFullTranslationKey(node),
+                //            Keyword = node.Name,
+                //            Value = node.Value != null && !node.Value.StartsWith("[Missing") ? node.Value : null,
+                //            IsFallback = node.Attribute("fallback") != null,
+                //            Language = language,
+                //            Category = GetCategoryName(node).ToSentenceCase()
+                //        })
+                //    .ToList();
+
+                // TODO: dirty, but working solution - use EPiServer API to get all translations and skip all default ones (hardcoded).
+                var skipNodes = new[]
+                    {
+                        "admin", // EPiServer
+                        "button", "customproperty", "Dropit", "headings", "pagetypes", "reportcenter", // Composer
+                        "ImageStoreAlbums", "ImageVaultBrowser", "ImageStoreCategories", "ImageStoreConversionFormats", "ImageStoreEPi", "ImageStoreMetaData", "ImageStoreMetaDataValidationError", "MeridiumLinkEditor", // ImageVault
+                        "accesslevels", "changelog", "clienttools", "cookie", "copy", "dope", "dynamiccontenttypes", "edit", "editor", "epidiff", "episerver.webparts", "exceptionmanager", "filemanager", "filemanagernavigator", "frames", "headings", "javascript", "labels", "login", "mirroring", "pageprovider", "pagetypes", "permissions", "personalization", "reportcenter", "status", "subscription", "system", "tinymce", "ui", "util", "validation", "webcontrols", "versionstatus", "workflow", "workflows", "xform", "enums", "shell" // EPiServer
+                    };
+                var languageNode = LanguageManager.Instance.GetLanguage(language);
+                var trs = new List<Translation>();
+
+                foreach (var rootChild in languageNode.Children)
                 {
-                    continue;
+                    if (skipNodes.Contains(rootChild.SimpleName))
+                    {
+                        continue;
+                    }
+
+                    trs.AddRange(GetTranslations(language, rootChild));
                 }
-
-                var root = doc.Root.Child("language");
-
-                var translationsForLanguage = root.Descendants()
-                    .Where(node => !node.HasElements)
-                    .Select(node => new Translation
-                        {
-                            Key = GetFullTranslationKey(node),
-                            Keyword = node.Name,
-                            Value = node.Value != null && !node.Value.StartsWith("[Missing") ? node.Value : null,
-                            IsFallback = node.Attribute("fallback") != null,
-                            Language = language,
-                            Category = GetCategoryName(node).ToSentenceCase()
-                        })
-                    .ToList();
 
                 var dictionary = new Dictionary
                     {
                         Language = language,
-                        Entries = translationsForLanguage
+                        Entries = trs
                     };
 
                 translations.Add(dictionary);
+            }
+
+            return translations;
+        }
+
+        private IEnumerable<Translation> GetTranslations(string language, LanguageNode node)
+        {
+            var translations = new List<Translation>();
+
+            foreach (var child in node.Children)
+            {
+                if (!string.IsNullOrEmpty(child.Value) && !child.Children.Any())
+                {
+                    var translation = new Translation
+                        {
+                            Key = child.Path.Replace("/languages/" + language + "/", ""),
+                            Keyword = child.SimpleName,
+                            Value = !child.Value.StartsWith("[Missing") ? child.Value : null,
+                            IsFallback = child.Attribute.Contains("fallback='true'"),
+                            Language = language,
+                            Category = child.Parent.SimpleName != language ? child.Parent.SimpleName.ToSentenceCase() : null
+                        };
+
+                    translations.Add(translation);
+                }
+                
+                translations.AddRange(GetTranslations(language, child));
             }
 
             return translations;
