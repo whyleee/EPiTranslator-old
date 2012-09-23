@@ -19,7 +19,7 @@
   </div>
     
   <div class="row">
-    <section id="categories" class="span3">
+    <nav id="categories" class="span3">
       <ul class="nav nav-pills nav-stacked">
         <li ng-class="{active: !selectedCategory && !onlyNotTranslated}">
           <a href="#/">All</a>
@@ -31,7 +31,7 @@
           <a href="#/{{category.Name}}">{{category.Name}}</a>
         </li>
       </ul>
-    </section>
+    </nav>
       
     <section id="translations" class="span9">
       <table class="table table-striped table-hover">
