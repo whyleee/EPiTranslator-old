@@ -1,9 +1,15 @@
 'use strict';
 
-function TranslationsCtrl($scope, $cookieStore, storage, $routeParams, core) {
+function TranslationsCtrl($scope, $cookieStore, storage, $routeParams, core, $location) {
+
+  var TRANSLATIONS_PER_PAGE = 40;
 
   $scope.onlyNotTranslated = $routeParams.category == 'not-translated';
   $scope.selectedCategory = !$scope.onlyNotTranslated ? $routeParams.category : null;
+
+  $scope.page = $routeParams.p ? parseInt($routeParams.p) : 1;
+  $scope.pagesCount = 1;
+  $scope.categoriesForPage = [];
 
   // set languages
   $scope.langs = storage.allLanguages(function (result) {
@@ -26,6 +32,21 @@ function TranslationsCtrl($scope, $cookieStore, storage, $routeParams, core) {
     if ($routeParams.category && !$scope.onlyNotTranslated) {
       all[$routeParams.category].active = true;
     }
+
+    var translations = result;
+    if ($routeParams.category && !$scope.onlyNotTranslated) {
+      translations = all[$routeParams.category];
+    }
+    
+    $scope.categoriesForPage = core.toArray([], translations, function (translations) {
+      return _.chain(translations)
+        .tail(($scope.page - 1) * TRANSLATIONS_PER_PAGE)
+        .take(TRANSLATIONS_PER_PAGE)
+        .groupBy('Category')
+        .value();
+    });
+    $scope.pagesCount = Math.ceil(translations.length / TRANSLATIONS_PER_PAGE);
+    
     return all;
   });
 
@@ -79,6 +100,14 @@ function TranslationsCtrl($scope, $cookieStore, storage, $routeParams, core) {
       return _.pluck($scope.langs.filter(function (lang) {return lang.selected;}), 'Id');
     }
   });
+
+  $scope.range = function(from, to) {
+    return _.range(from, to);
+  };
+
+  $scope.urlToPage = function(p) {
+    return '#' + $location.path() + '?p=' + p;
+  };
 
   $scope.computeTranslationIndex = function (scope) {
     var categoryIndex = scope.$parent.$parent.$index;

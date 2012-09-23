@@ -157,6 +157,7 @@
       <Private>True</Private>
       <HintPath>..\packages\EPiServerCMS6ToNetFour.1.0.0\lib\System.ComponentModel.Composition.dll</HintPath>
     </Reference>
+    <Reference Include="System.Net.Http, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />

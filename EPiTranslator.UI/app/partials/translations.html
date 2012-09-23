@@ -41,7 +41,7 @@
             {{lang.Name}}
           </th>
         </thead>
-        <tbody class="category" ng-repeat="category in categories | filter:selectedCategory | filter:haveNotTranslatedIfSelected | filter:query">
+        <tbody class="category" ng-repeat="category in categoriesForPage | filter:selectedCategory | filter:haveNotTranslatedIfSelected | filter:query">
           <tr class="category-header">
             <th colspan="{{selectedLangs.length + 1}}">{{category.Name}}</th>
           </tr>
@@ -70,6 +70,20 @@
           </tr>
         </tbody>
       </table>
+      
+      <nav ng-show="pagesCount > 1">
+        <ul class="pager">
+          <li ng-class="{disabled: page == 1}">
+            <a ng-href="{{urlToPage(page - 1)}}">« Prev</a>
+          </li>
+          <li ng-repeat="p in range(1, pagesCount + 1)" ng-class="{active: p == page}">
+            <a ng-href="{{urlToPage(p)}}">{{p}}</a>
+          </li>
+          <li ng-class="{disabled: page == pagesCount}">
+            <a ng-href="{{urlToPage(page + 1)}}">Next »</a>
+          </li>
+        </ul>
+      </nav>
     </section>
   </div>
 

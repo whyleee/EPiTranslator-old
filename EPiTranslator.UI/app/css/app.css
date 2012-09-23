@@ -104,6 +104,21 @@
     content: '✖';
   }
 
+  /* Pager */
+  #translations nav {
+    margin-top: 30px;
+  }
+  #translations .pager a {
+    border: none;
+  }
+  #translations .pager li.active {
+    font-size: 1.15em;
+    font-weight: bold;
+  }
+  #translations .pager li.disabled {
+    pointer-events: none;
+  }
+
 
 /* Categories selector */
 #categories {
